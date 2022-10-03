@@ -178,7 +178,8 @@ const Home = () => {
         <VStack>
           <Flex width={'100%'}>
             <Spacer></Spacer>
-            <Image src={canadaFlag} width={["20px", "20px", "40px", "40px"]} mr={'10px'}></Image>
+            <Text color='white' fontFamily={'bodyParagraph'} fontSize={['14px', '14px', '15px', '15px']} pt={['2px', '2px', '10px', '10px']} pr={'10px'}>(647) 365-5329</Text>
+            <Image src={canadaFlag} width={["25px", "25px", "40px", "40px"]} mr={'10px'}></Image>
           </Flex>
           <Link href='https://www.f30grillz.com'><Image src={logoTransBg} width={["180px", "200px", "200px", "200px"]}></Image></Link>
 
@@ -193,12 +194,13 @@ const Home = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <BreadcrumbLink href='#contact'>CONTACT</BreadcrumbLink>
+              <BreadcrumbLink href='#faq'>FAQ</BreadcrumbLink>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <BreadcrumbLink href='#faq'>FAQ</BreadcrumbLink>
+              <BreadcrumbLink href='#contact'>CONTACT</BreadcrumbLink>
             </BreadcrumbItem>
+
           </Breadcrumb>
         </VStack>
       </Box >
@@ -207,7 +209,7 @@ const Home = () => {
       <Box as="main" mt={["160px", "160px", "160px", "160px"]} >
 
         {/* SLIDESHOW */}
-        < Box backgroundImage={slideImages[slideshowTimer - 1]} backgroundPosition={'center'} backgroundSize={"cover"} height={['300px', '350px', '400px', '600px']} p={0} m={0} >
+        <Box backgroundImage={slideImages[slideshowTimer - 1]} backgroundPosition={'center'} backgroundSize={"cover"} height={['300px', '350px', '400px', '600px']} p={0} m={0} >
           <Center>
             <Box bgColor='blue.500' mt={10} p={1}
               width={['330px', '330px', '360px', '400px']}
@@ -215,54 +217,56 @@ const Home = () => {
               <Text fontFamily={'bodyTitle'} fontSize={['30px', '30px', '35px', '40px']} color='white'>{slideText[slideshowTimer - 1]}</Text>
             </Box>
           </Center>
-        </Box >
+        </Box>
 
         {/* THE GRILLZ */}
-        < Box id='grillz' backgroundColor='gray.800' >
-          <VStack p={5}>
+        <Box id='grillz' backgroundColor='gray.800'>
+          <Center>
+            <VStack p={5} width={['100%', '100%', '60%', '60%']}>
 
-            <Box pb={5}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>THE GRILLZ</Text>
-            </Box>
+              <Box pb={5}>
+                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>THE GRILLZ</Text>
+              </Box>
 
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>GLOSS BLACK</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>The gloss black finish steps up your front end game.</Text>
-            </Box>
+              <Box pb={3} m={0} width={'100%'}>
+                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>GLOSS BLACK</Text>
+                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>The gloss black finish steps up your front end game.</Text>
+              </Box>
 
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>PERFECT FITMENT</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>2012-2018 F30 F31 F35 3-Series fitment.
-                No gaps, no missing tabs. Fits like a glove.</Text>
-            </Box>
+              <Box pb={3} m={0} width={'100%'}>
+                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>PERFECT FITMENT</Text>
+                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>2012-2018 F30 F31 F35 3-Series fitment.
+                  No gaps, no missing tabs. Fits like a glove.</Text>
+              </Box>
 
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>M3/M4 STYLE</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Need we say more?</Text>
-            </Box>
+              <Box pb={3} m={0} width={'100%'}>
+                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>M3/M4 STYLE</Text>
+                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Need we say more?</Text>
+              </Box>
 
-            <Image pb={3} src={grille} width={['250px']}></Image>
+              <Image pb={3} src={grille} width={['250px']}></Image>
 
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'right'}>DOUBLE SLATS</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'right'}>Double slats for that aggressive look, while allowing ample airflow through to your engine.</Text>
-            </Box>
+              <Box pb={3} m={0} width={'100%'}>
+                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'right'}>DOUBLE SLATS</Text>
+                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'right'}>Double slats for that aggressive look, while allowing ample airflow through to your engine.</Text>
+              </Box>
 
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'right'}>PREMIUM QUALITY</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'right'}>Machine measured and finished with premium materials without a premium price.</Text>
-            </Box>
+              <Box pb={3} m={0} width={'100%'}>
+                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'right'}>PREMIUM QUALITY</Text>
+                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'right'}>Machine measured and finished with premium materials without a premium price.</Text>
+              </Box>
 
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'right'}>NON-INVASIVE INSTALLATION</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'right'}>No lift required. Mobile installation available in the Greater Toronto Area.</Text>
-            </Box>
+              <Box pb={3} m={0} width={'100%'}>
+                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'right'}>NON-INVASIVE INSTALLATION</Text>
+                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'right'}>No lift required. Mobile installation available in the Greater Toronto Area.</Text>
+              </Box>
 
-          </VStack>
-        </Box >
+            </VStack>
+          </Center>
+        </Box>
 
         {/* PRICES */}
-        < Box id='prices' backgroundColor='#3182ce' >
+        <Box id='prices' backgroundColor='#15171a'>
           <VStack p={5}>
 
             <Box pb={5}>
@@ -297,10 +301,43 @@ const Home = () => {
             </Center>
 
           </VStack>
-        </Box >
+        </Box>
+
+
+        {/* FAQ */}
+        <Box id='faq' backgroundColor='gray.800'>
+          <VStack p={5}>
+
+            <Box pb={5}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>FAQ</Text>
+            </Box>
+
+            <Box pb={3} m={0} width={'100%'}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Do you offer shipping?</Text>
+              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>No, at this time we do not offer shipping as we want to keep the price as low as possible. We operate in the GTA and provide pickup as well as meetup options.</Text>
+            </Box>
+
+            <Box pb={3} m={0} width={'100%'}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Do you need to remove my bumper to install the grills?</Text>
+              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>The installation does not require bumper removal. Installation can be done on the spot and takes about 20 minutes. We strongly recommend letting us do the swap for you to avoid breaking the tabs on the grills, or breaking the inserts on your bumper.</Text>
+            </Box>
+
+            <Box pb={3} m={0} width={'100%'}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Will these fit my car?</Text>
+              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Our grills fit all F30, F31, and F35 BMWs. Basically, if you have a 3-series made between 2012-2018, they will fit like a glove.</Text>
+            </Box>
+
+            <Box pb={3} m={0} width={'100%'}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>What's the difference between F30 Grillz and grills on Amazon?</Text>
+              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Simply put, our grills are better quality. The plastic on our grills is stronger and the slats are slightly thicker. We have the Amazon grills and can show you the difference.</Text>
+            </Box>
+
+          </VStack>
+        </Box>
+
 
         {/* CONTACT */}
-        <Box id='contact' backgroundColor='#15171a' >
+        <Box id='contact' backgroundColor='#15171a'>
           <VStack p={5}>
 
             <Box pb={0}>
@@ -364,7 +401,7 @@ const Home = () => {
                           {/* MESSAGE */}
                           <FormLabel fontFamily={'bodyParagraph'} color='white' pt={'15px'}>Message</FormLabel>
                           <Input
-                            type='Textarea'
+                            type='text'
                             name='message'
                             placeholder='Enter your message'
                             value={toSend.message}
@@ -440,49 +477,19 @@ const Home = () => {
 
           </VStack>
 
-        </Box >
+        </Box>
 
 
-        {/* FAQ */}
-        <Box id='faq' backgroundColor='gray.800' >
-          <VStack p={5}>
-
-            <Box pb={5}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>FAQ</Text>
-            </Box>
-
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Do you offer shipping?</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>No, at this time we do not offer shipping as we want to keep the price as low as possible. We operate in the GTA and provide pickup as well as meetup options.</Text>
-            </Box>
-
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Do you need to remove my bumper to install the grills?</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>The installation does not require bumper removal. Installation can be done on the spot and takes about 20 minutes. We strongly recommend letting us do the swap for you to avoid breaking the tabs on the grills, or breaking the inserts on your bumper.</Text>
-            </Box>
-
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Will these fit my car?</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Our grills fit all F30, F31, and F35 BMWs. Basically, if you have a 3-series made between 2012-2018, they will fit like a glove.</Text>
-            </Box>
-
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>What's the difference between F30 Grillz and grills on Amazon?</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Simply put, our grills are better quality. The plastic on our grills is stronger and the slats are slightly thicker. We have the Amazon grills and can show you the difference.</Text>
-            </Box>
-
-          </VStack>
-        </Box >
 
         {/* FOOTER */}
-        < Box backgroundColor='#3182ce' color='white' fontFamily={'bodyParagraph'} fontSize={'12px'} p={'14px'} >
+        <Box backgroundColor='#3182ce' color='white' fontFamily={'bodyParagraph'} fontSize={'12px'} p={'14px'}>
           <Text>@f30grillz - sales@f30grillz.com - 647-365-5329</Text>
           <Text>
             © F30 GRILLZ 2022 TORONTO, ONTARIO, CANADA</Text>
-        </Box >
+        </Box>
 
-      </Box >
-    </Box >
+      </Box>
+    </Box>
 
   );
 };
