@@ -211,7 +211,7 @@ const Home = () => {
         {/* SLIDESHOW */}
         <Box backgroundImage={slideImages[slideshowTimer - 1]} backgroundPosition={'center'} backgroundSize={"cover"} height={['300px', '350px', '400px', '600px']} p={0} m={0} >
           <Center>
-            <Box bgColor='blue.500' mt={10} p={1}
+            <Box bgColor='blue.500' mt={['10px', '40px', '80px', '80px']} p={['1px']}
               width={['330px', '330px', '360px', '400px']}
               height={['50px', '50px', '60px', '65px']}>
               <Text fontFamily={'bodyTitle'} fontSize={['30px', '30px', '35px', '40px']} color='white'>{slideText[slideshowTimer - 1]}</Text>
