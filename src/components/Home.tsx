@@ -195,6 +195,10 @@ const Home = () => {
             <BreadcrumbItem>
               <BreadcrumbLink href='#contact'>CONTACT</BreadcrumbLink>
             </BreadcrumbItem>
+
+            <BreadcrumbItem>
+              <BreadcrumbLink href='#faq'>FAQ</BreadcrumbLink>
+            </BreadcrumbItem>
           </Breadcrumb>
         </VStack>
       </Box >
@@ -436,6 +440,38 @@ const Home = () => {
 
           </VStack>
 
+        </Box >
+
+
+        {/* FAQ */}
+        <Box id='faq' backgroundColor='gray.800' >
+          <VStack p={5}>
+
+            <Box pb={5}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>FAQ</Text>
+            </Box>
+
+            <Box pb={3} m={0} width={'100%'}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Do you offer shipping?</Text>
+              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>No, at this time we do not offer shipping as we want to keep the price as low as possible. We operate in the GTA and provide pickup as well as meetup options.</Text>
+            </Box>
+
+            <Box pb={3} m={0} width={'100%'}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Do you need to remove my bumper to install the grills?</Text>
+              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>The installation does not require bumper removal. Installation can be done on the spot and takes about 20 minutes. We strongly recommend letting us do the swap for you to avoid breaking the tabs on the grills, or breaking the inserts on your bumper.</Text>
+            </Box>
+
+            <Box pb={3} m={0} width={'100%'}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Will these fit my car?</Text>
+              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Our grills fit all F30, F31, and F35 BMWs. Basically, if you have a 3-series made between 2012-2018, they will fit like a glove.</Text>
+            </Box>
+
+            <Box pb={3} m={0} width={'100%'}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>What's the difference between F30 Grillz and grills on Amazon?</Text>
+              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Simply put, our grills are better quality. The plastic on our grills is stronger and the slats are slightly thicker. We have the Amazon grills and can show you the difference.</Text>
+            </Box>
+
+          </VStack>
         </Box >
 
         {/* FOOTER */}
