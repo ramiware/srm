@@ -485,7 +485,7 @@ const Home = () => {
         <Box backgroundColor='#3182ce' color='white' fontFamily={'bodyParagraph'} fontSize={'12px'} p={'14px'}>
           <Text>@f30grillz - sales@f30grillz.com - 647-365-5329</Text>
           <Text>
-            © F30 GRILLZ 2022 TORONTO, ONTARIO, CANADA</Text>
+            © F30 GRILLZ 2020 - 2022 TORONTO, ONTARIO, CANADA</Text>
         </Box>
 
       </Box>
