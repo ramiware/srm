@@ -3,6 +3,8 @@ import grilleInstall from "../images/grille-install.png"
 import meguiarsCompound from "../images/meguiars-compound.jpg"
 import meguiarsPolish from "../images/meguiars-polish.jpg"
 import meguiarsWax from "../images/meguiars-wax.jpg"
+import plateCoversClear from "../images/plate-covers-clear.jpg"
+import plateCoversSmoked from "../images/plate-covers-smoked.jpg"
 
 const RECOMMENDED_PRODUCT_DESC = "Recommended product. We only recommend products that we have used and regard as high quality. We do the research so you don't have to.";
 const RECOMMENDED_BUY_NOW = "Buy now thanks to our Amazon partnership and have it delivered directly to your door.";
@@ -81,6 +83,30 @@ const prod5: Product = {
   descLine3: RECOMMENDED_BUY_NOW
 }
 
+const prod6: Product = {
+  id: '6',
+  thumb: plateCoversClear,
+  title: "PLATE COVER'S - CLEAR",
+  price: "$18",
+  linkText: "Buy Now",
+  linkURL: "https://amzn.to/42mxP2h",
+  descLine1: RECOMMENDED_PRODUCT_DESC,
+  descLine2: "Buy It Now With Confidence: This Quality License Plate Shields Combo will keep your license plates safe from sunlight 100% and we guarantee satisfaction with a 100% lifetime money back guarantee.",
+  descLine3: RECOMMENDED_BUY_NOW
+}
+
+const prod7: Product = {
+  id: '7',
+  thumb: plateCoversSmoked,
+  title: "PLATE COVER'S - SMOKED",
+  price: "$18",
+  linkText: "Buy Now",
+  linkURL: "https://amzn.to/3VXnGXj",
+  descLine1: RECOMMENDED_PRODUCT_DESC,
+  descLine2: "Buy It Now With Confidence: This Quality License Plate Shields Combo will keep your license plates safe from sunlight 100% and we guarantee satisfaction with a 100% lifetime money back guarantee.",
+  descLine3: RECOMMENDED_BUY_NOW
+}
+
 
 export function useProducts() {
 
@@ -90,6 +116,8 @@ export function useProducts() {
   f30Products.push(prod3);
   f30Products.push(prod4);
   f30Products.push(prod5);
+  f30Products.push(prod6);
+  f30Products.push(prod7);
 
   return { f30Products: f30Products }
 };
