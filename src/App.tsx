@@ -6,7 +6,7 @@ import {
 
 import theme from "./components/theme"
 import Fonts from "./components/Fonts"
-import Home from "./components/Home"
+import Home from "./pages/Home"
 
 
 

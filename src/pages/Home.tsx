@@ -15,22 +15,34 @@ import {
   HStack,
   FormLabel,
   Link,
-  Spacer
+  Spacer,
+  useDisclosure,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay
 } from "@chakra-ui/react"
+
+// Hooks
+import { useProducts } from "../hooks/useProducts";
 
 // npm i emailjs-com
 import { send } from 'emailjs-com';
 
+// Images
 import logoTransBg from "../images/logo-trans-bg.png"
 import canadaFlag from "../images/canada-flag.png"
 import grille from "../images/grille.png"
-import grillePreview from "../images/grille-preview.png"
-import grilleInstall from "../images/grille-install.png"
 
+// Social media images
 import instagram from "../images/instagram.png"
 import mail from "../images/mail.png"
 import phone from "../images/phone.png"
 
+// Slideshow images
 import slide1 from "../images/slideshow/m4_f82_white_front.jpg"
 import slide2 from "../images/slideshow/bmw-m4-sky-blue.jpeg"
 import slide3 from "../images/slideshow/lsb-f30.jpg"
@@ -57,9 +69,43 @@ const MESSAGE_FAILED = 'Your message has not been sent. Please try again or try 
 const Home = () => {
 
   /***********************************************************************************************************
+   * CLASS CONSTANTS
+   ***********************************************************************************************************/
+  const PROD_FLEX_SIZE_S = '335px';
+  const PROD_FLEX_SIZE_M = '335px';
+  const PROD_FLEX_SIZE_L = '1245px';
+  const PROD_FLEX_SIZE_XL = '1245px';
+
+  const PROD_IMG_SIZE_S = '165px';
+  const PROD_IMG_SIZE_M = '165px';
+  const PROD_IMG_SIZE_L = '300px';
+  const PROD_IMG_SIZE_XL = '300px';
+
+  const PROD_TITLE_FONT_SIZE_S = '18px';
+  const PROD_TITLE_FONT_SIZE_M = '18px';
+  const PROD_TITLE_FONT_SIZE_L = '25px';
+  const PROD_TITLE_FONT_SIZE_XL = '25px';
+
+  const PROD_HDR_DESC_FONT_SIZE_S = '28px';
+  const PROD_HDR_DESC_FONT_SIZE_M = '28px';
+  const PROD_HDR_DESC_FONT_SIZE_L = '35px';
+  const PROD_HDR_DESC_FONT_SIZE_XL = '35px';
+
+  const PROD_DET_DESC_FONT_SIZE_S = '10px';
+  const PROD_DET_DESC_FONT_SIZE_M = '10px';
+  const PROD_DET_DESC_FONT_SIZE_L = '12px';
+  const PROD_DET_DESC_FONT_SIZE_XL = '12px';
+
+  /***********************************************************************************************************
    * CLASS VARIABLES
    ***********************************************************************************************************/
+  const { f30Products } = useProducts();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const [currProdIndex, setCurrProdIndex] = useState(0);
+
   const [slideshowTimer, setSlideshowTimer] = useState<any>(null);
+
   const [messageStatus, setMessageStatus] = useState('');
 
   const [toSend, setToSend] = useState({
@@ -77,6 +123,12 @@ const Home = () => {
   /***********************************************************************************************************
    * CLASS FUNCTIONS
    ***********************************************************************************************************/
+
+  /// SHOW PROD DETAILS
+  function showProductDetailsPopUp(prodIndex: number) {
+    setCurrProdIndex(prodIndex);
+    onOpen();
+  }
 
   /// SUBMIT FORM
   const onSubmit = (e: { preventDefault: () => void; }) => {
@@ -153,6 +205,10 @@ const Home = () => {
     // when we update it
   }, [slideshowTimer]);
 
+  // CURRENT PROD INDEX
+  useEffect(() => {
+  }, [currProdIndex]);
+
   /// FORM VALIDATION
   useEffect(() => {
   }, [formErrorName, formErrorEmail, formErrorMessage]);
@@ -190,7 +246,7 @@ const Home = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <BreadcrumbLink href='#prices'>PRICES</BreadcrumbLink>
+              <BreadcrumbLink href='#prices'>PRODUCTS</BreadcrumbLink>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
@@ -220,7 +276,8 @@ const Home = () => {
         </Box>
 
         {/* THE GRILLZ */}
-        <Box id='grillz' backgroundColor='gray.800'>
+        <Box id='grillz' height='200px' backgroundColor='gray.800'></Box>
+        <Box backgroundColor='gray.800'>
           <Center>
             <VStack p={5} width={['100%', '100%', '60%', '60%']}>
 
@@ -265,47 +322,86 @@ const Home = () => {
           </Center>
         </Box>
 
-        {/* PRICES */}
-        <Box id='prices' backgroundColor='#15171a'>
+        {/* PRODUCTS */}
+        <Box id='prices' height='200px' backgroundColor='gray.800'></Box>
+        <Box backgroundColor='#15171a'>
           <VStack p={5}>
 
             <Box pb={5}>
-              <Text color='white' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>PRICES</Text>
+              <Text color='white' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>PRODUCTS</Text>
             </Box>
 
             <Center>
-              <Flex pb={3} m={0} width={'100%'}>
-                <Box backgroundColor={'white'} pb={['30px', '35px', '40px', '45px']} pt={'4px'} pl={'4px'} pr={'4px'} border={"2px"} borderColor={'white'} maxW={['170px', '200px', '300px', '400px']}>
-                  <Image pb={3} src={grillePreview} objectFit={'contain'} width={['170px', '200px', '300px', '400px']} height={['170px', '200px', '300px', '400px']}></Image>
-                  <Box backgroundColor={'#3182ce'} width={'100%'}>
-                    <Text color='white' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'center'}>GRILL</Text>
+              <Flex m={0} gap={['5px', '5px', '10px', '15px']} flexWrap={"wrap"} width={[PROD_FLEX_SIZE_S, PROD_FLEX_SIZE_M, PROD_FLEX_SIZE_L, PROD_FLEX_SIZE_XL]} bgColor='gray.800'>
+
+                {/* PRODUCT MAPPING */}
+                {f30Products.map((f30Prods, index) => (
+                  <Box backgroundColor={'white'} p='5px' border={"2px"} borderColor={'white'} maxW={[PROD_IMG_SIZE_S, PROD_IMG_SIZE_M, PROD_IMG_SIZE_L, PROD_IMG_SIZE_XL]}>
+                    <Image pb={3} src={f30Prods.thumb} objectFit={'contain'} boxSize={[PROD_IMG_SIZE_S, PROD_IMG_SIZE_M, PROD_IMG_SIZE_L, PROD_IMG_SIZE_XL]}
+                      onClick={() => showProductDetailsPopUp(index)}></Image>
+
+                    <Spacer></Spacer>
+
+                    <Text color='black' fontFamily={'bodyTitle'} fontSize={[PROD_TITLE_FONT_SIZE_S, PROD_TITLE_FONT_SIZE_M, PROD_TITLE_FONT_SIZE_L, PROD_TITLE_FONT_SIZE_XL]} textAlign={'center'}>{f30Prods.title}</Text>
+
+                    <VStack bgColor='#3182ce' color='white' fontFamily={'bodyParagraph'}
+                      fontSize={[PROD_TITLE_FONT_SIZE_S, PROD_TITLE_FONT_SIZE_M, PROD_TITLE_FONT_SIZE_L, PROD_TITLE_FONT_SIZE_XL]}>
+                      <Text>{f30Prods.price}</Text>
+                      <Text><Link target="_blank" href={f30Prods.linkURL}>{f30Prods.linkText}</Link></Text>
+                    </VStack>
                   </Box>
-                  <Box>
-                    <Text color='black' fontFamily={'bodyParagraph'} fontSize={['20px', '24px', '28px', '32px']} textAlign={'left'}>$70</Text>
-                    <Text color='#3182ce' fontFamily={'bodyParagraph'} fontSize={['12px', '16px', '18px', '22px']} textAlign={'left'}>- Front Kidney Grilles for 2012-18 BMW 3-Series F30/F31/F35</Text>
-                    <Text color='#3182ce' fontFamily={'bodyParagraph'} fontSize={['12px', '16px', '18px', '22px']} textAlign={'left'}>- Gloss Black Dual Slat Grills (Set)</Text>
-                  </Box>
-                </Box>
-                <Box width={'15px'}></Box>
-                <Box backgroundColor={'white'} pb={['30px', '35px', '40px', '45px']} pt={'4px'} pl={'4px'} pr={'4px'} border={"2px"} borderColor={'white'} maxW={['170px', '200px', '300px', '400px']}>
-                  <Image pb={3} src={grilleInstall} objectFit={'contain'} width={['170px', '200px', '300px', '400px']} height={['170px', '200px', '300px', '400px']}></Image>
-                  <Box backgroundColor={'#3182ce'} width={'100%'}>
-                    <Text color='white' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'center'}>INSTALL</Text>
-                  </Box>
-                  <Box>
-                    <Text color='black' fontFamily={'bodyParagraph'} fontSize={['20px', '24px', '28px', '32px']} textAlign={'left'}>$30</Text>
-                    <Text color='#3182ce' fontFamily={'bodyParagraph'} fontSize={['12px', '16px', '18px', '22px']} textAlign={'left'}>- No lift required. Mobile installation available in the Greater Toronto Area.</Text>
-                  </Box>
-                </Box>
+                ))}
+
               </Flex>
             </Center>
 
           </VStack>
         </Box>
 
+        {/* PRODUCT POP UP MODAL */}
+        <Modal onClose={onClose} isOpen={isOpen} size={["sm", "md", "xl", "2xl"]} isCentered>
+          <ModalOverlay bg='blackAlpha.100'
+            backdropFilter='blur(10px) hue-rotate(0deg)' />
+          <ModalContent bgColor='white' color='black'>
+            {/* <ModalHeader>{f30Products[currProdIndex].title}</ModalHeader> */}
+            <ModalCloseButton />
+            <ModalBody>
+              <HStack>
+                <Image pb={3} src={f30Products[currProdIndex].thumb} objectFit={'contain'} boxSize={[PROD_IMG_SIZE_M, PROD_IMG_SIZE_M, PROD_IMG_SIZE_L, PROD_IMG_SIZE_XL]}
+                  onClick={onOpen}></Image>
+
+                <VStack align='left' color='black'>
+                  {/* TITLE */}
+                  <Text fontSize={[PROD_HDR_DESC_FONT_SIZE_S, PROD_HDR_DESC_FONT_SIZE_M, PROD_HDR_DESC_FONT_SIZE_L, PROD_HDR_DESC_FONT_SIZE_XL]} fontFamily={'bodyTitle'}>{f30Products[currProdIndex].title}</Text>
+                  {/* PRICE */}
+                  <Text fontSize={[PROD_HDR_DESC_FONT_SIZE_S, PROD_HDR_DESC_FONT_SIZE_M, PROD_HDR_DESC_FONT_SIZE_L, PROD_HDR_DESC_FONT_SIZE_XL]} fontFamily={'bodyParagraph'}>{f30Products[currProdIndex].price}</Text>
+                  {/* LINK */}
+                  <Text fontSize={[PROD_HDR_DESC_FONT_SIZE_S, PROD_HDR_DESC_FONT_SIZE_M, PROD_HDR_DESC_FONT_SIZE_L, PROD_HDR_DESC_FONT_SIZE_XL]} fontFamily={'bodyTitle'}
+                    color='white' bgColor='#3182ce' align='center'>
+                    <Link target="_blank" href={f30Products[currProdIndex].linkURL}>{f30Products[currProdIndex].linkText}</Link>
+                  </Text>
+                  <Text fontSize={[PROD_DET_DESC_FONT_SIZE_S, PROD_DET_DESC_FONT_SIZE_M, PROD_DET_DESC_FONT_SIZE_L, PROD_DET_DESC_FONT_SIZE_XL]}>{f30Products[currProdIndex].descLine1}</Text>
+                  <Text fontSize={[PROD_DET_DESC_FONT_SIZE_S, PROD_DET_DESC_FONT_SIZE_M, PROD_DET_DESC_FONT_SIZE_L, PROD_DET_DESC_FONT_SIZE_XL]}>{f30Products[currProdIndex].descLine2}</Text>
+                  <Text fontSize={[PROD_DET_DESC_FONT_SIZE_S, PROD_DET_DESC_FONT_SIZE_M, PROD_DET_DESC_FONT_SIZE_L, PROD_DET_DESC_FONT_SIZE_XL]}>{f30Products[currProdIndex].descLine3}</Text>
+                </VStack>
+
+
+
+              </HStack>
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={onClose}>Close</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
+
+
+
 
         {/* FAQ */}
-        <Box id='faq' backgroundColor='gray.800'>
+        <Box id='faq' height='200px' backgroundColor='#15171a'></Box>
+        <Box backgroundColor='gray.800'>
           <VStack p={5}>
 
             <Box pb={5}>
@@ -314,7 +410,7 @@ const Home = () => {
 
             <Box pb={3} m={0} width={'100%'}>
               <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Do you offer shipping?</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>No, at this time we do not offer shipping as we want to keep the price as low as possible. We operate in the GTA and provide pickup as well as meetup options.</Text>
+              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>We do not offer shipping on our grills, however all of our recommended products can be purchased through our Amazon partnershipi and shipped directly to your door.</Text>
             </Box>
 
             <Box pb={3} m={0} width={'100%'}>
@@ -485,7 +581,7 @@ const Home = () => {
         <Box backgroundColor='#3182ce' color='white' fontFamily={'bodyParagraph'} fontSize={'12px'} p={'14px'}>
           <Text>@f30grillz - sales@f30grillz.com - 647-365-5329</Text>
           <Text>
-            © F30 GRILLZ 2020 - 2022 TORONTO, ONTARIO, CANADA</Text>
+            © F30 GRILLZ 2020 - 2023 TORONTO, ONTARIO, CANADA</Text>
         </Box>
 
       </Box>
