@@ -234,7 +234,7 @@ const Home = () => {
         <VStack>
           <Flex width={'100%'}>
             <Spacer></Spacer>
-            <Text color='white' fontFamily={'bodyParagraph'} fontSize={['14px', '14px', '15px', '15px']} pt={['2px', '2px', '10px', '10px']} pr={'10px'}>(647) 365-5329</Text>
+            <Link href="tel:+16473655329"><Text color='white' fontFamily={'bodyParagraph'} fontSize={['14px', '14px', '15px', '15px']} pt={['2px', '2px', '10px', '10px']} pr={'10px'}>(647) 365-5329</Text></Link>
             <Image src={canadaFlag} width={["25px", "25px", "40px", "40px"]} mr={'10px'}></Image>
           </Flex>
           <Link href='https://www.f30grillz.com'><Image src={logoTransBg} width={["180px", "200px", "200px", "200px"]}></Image></Link>
@@ -409,6 +409,11 @@ const Home = () => {
             </Box>
 
             <Box pb={3} m={0} width={'100%'}>
+              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>What's the difference between F30 Grillz and grills on Amazon?</Text>
+              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Simply put, our grills are better quality. We have done the work to source out the best quality after market grills available. The plastic on our grills is stronger and the slats are slightly thicker. We have the Amazon grills and can show you the difference.</Text>
+            </Box>
+
+            <Box pb={3} m={0} width={'100%'}>
               <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Do you offer shipping?</Text>
               <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>We do not offer shipping on our grills, however all of our recommended products can be purchased through our Amazon partnershipi and shipped directly to your door.</Text>
             </Box>
@@ -421,11 +426,6 @@ const Home = () => {
             <Box pb={3} m={0} width={'100%'}>
               <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Will these fit my car?</Text>
               <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Our grills fit all F30, F31, and F35 BMWs. Basically, if you have a 3-series made between 2012-2018, they will fit like a glove.</Text>
-            </Box>
-
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>What's the difference between F30 Grillz and grills on Amazon?</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Simply put, our grills are better quality. The plastic on our grills is stronger and the slats are slightly thicker. We have the Amazon grills and can show you the difference.</Text>
             </Box>
 
           </VStack>
@@ -551,7 +551,7 @@ const Home = () => {
                     <Center>
                       <VStack>
                         <Image pb={3} src={instagram} objectFit={'contain'} boxSize={'40px'}></Image>
-                        <Text color='white' fontFamily={'bodyTitle'} fontSize={['18px', '25px', '25px', '25px']} textAlign={'center'}>F30GRILLZ</Text>
+                        <Link href="https://www.instagram.com/f30grillz/" target="_blank"><Text color='white' fontFamily={'bodyTitle'} fontSize={['18px', '25px', '25px', '25px']} textAlign={'center'}>F30GRILLZ</Text></Link>
                       </VStack>
                     </Center>
                   </Box>
@@ -562,7 +562,7 @@ const Home = () => {
                     <Center>
                       <VStack>
                         <Image pb={3} src={phone} objectFit={'contain'} boxSize={'40px'}></Image>
-                        <Text color='white' fontFamily={'bodyTitle'} fontSize={['18px', '25px', '25px', '25px']} textAlign={'center'}>(647) 365-5329</Text>
+                        <Link href="tel:+16473655329"><Text color='white' fontFamily={'bodyTitle'} fontSize={['18px', '25px', '25px', '25px']} textAlign={'center'}>(647) 365-5329</Text></Link>
                       </VStack>
                     </Center>
                   </Box>

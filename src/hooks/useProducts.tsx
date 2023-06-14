@@ -1,5 +1,6 @@
 import grillePreview from "../images/grille-preview.png"
-import grilleInstall from "../images/grille-install.png"
+import mirrorCapPreview from "../images/mirror-caps-preview.jpg"
+import installs from "../images/grille-install.png"
 import meguiarsCompound from "../images/meguiars-compound.jpg"
 import meguiarsPolish from "../images/meguiars-polish.jpg"
 import meguiarsWax from "../images/meguiars-wax.jpg"
@@ -37,8 +38,20 @@ const prod1: Product = {
 
 const prod2: Product = {
   id: '2',
-  thumb: grilleInstall,
-  title: "GRILL INSTALLATION",
+  thumb: mirrorCapPreview,
+  title: "3-SERIES GLOSS BLACK MIRROR CAPS",
+  price: "$80",
+  linkText: "Call Now",
+  linkURL: "tel:+16473655329",
+  descLine1: "Gloss Black M3 Style Mirror Caps (Set)",
+  descLine2: "Fits 2012-18 BMW 3-Series F30/F31/F35",
+  descLine3: F30_BUY_NOW
+}
+
+const prod3: Product = {
+  id: '3',
+  thumb: installs,
+  title: "GRILL/MIRROR CAP INSTALLATION",
   price: "$30",
   linkText: "Call Now",
   linkURL: "tel:+16473655329",
@@ -47,8 +60,8 @@ const prod2: Product = {
   descLine3: F30_BUY_NOW
 }
 
-const prod3: Product = {
-  id: '3',
+const prod4: Product = {
+  id: '4',
   thumb: meguiarsCompound,
   title: "MEGUIAR'S COMPOUND",
   price: "$14",
@@ -59,8 +72,8 @@ const prod3: Product = {
   descLine3: RECOMMENDED_BUY_NOW
 }
 
-const prod4: Product = {
-  id: '4',
+const prod5: Product = {
+  id: '5',
   thumb: meguiarsPolish,
   title: "MEGUIAR'S POLISH",
   price: "$14",
@@ -71,8 +84,8 @@ const prod4: Product = {
   descLine3: RECOMMENDED_BUY_NOW
 }
 
-const prod5: Product = {
-  id: '5',
+const prod6: Product = {
+  id: '6',
   thumb: meguiarsWax,
   title: "MEGUIAR'S WAX",
   price: "$43",
@@ -83,8 +96,8 @@ const prod5: Product = {
   descLine3: RECOMMENDED_BUY_NOW
 }
 
-const prod6: Product = {
-  id: '6',
+const prod7: Product = {
+  id: '7',
   thumb: plateCoversClear,
   title: "PLATE COVER'S - CLEAR",
   price: "$18",
@@ -95,8 +108,8 @@ const prod6: Product = {
   descLine3: RECOMMENDED_BUY_NOW
 }
 
-const prod7: Product = {
-  id: '7',
+const prod8: Product = {
+  id: '8',
   thumb: plateCoversSmoked,
   title: "PLATE COVER'S - SMOKED",
   price: "$18",
@@ -118,6 +131,7 @@ export function useProducts() {
   f30Products.push(prod5);
   f30Products.push(prod6);
   f30Products.push(prod7);
+  f30Products.push(prod8);
 
   return { f30Products: f30Products }
 };
