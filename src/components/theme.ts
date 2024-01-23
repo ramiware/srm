@@ -5,7 +5,7 @@ import { extendTheme } from '@chakra-ui/react'
 
 const theme = extendTheme({
   fonts: {
-    heading: `'sd prostreet Heading', Impact`,
+    heading: `'Fjalla One',  Calibri`,
     bodyTitle: `'Impact Body', Impact`,
     bodyParagraph: `'Oswald Body',  Calibri`,
   },

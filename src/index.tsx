@@ -8,17 +8,17 @@ import { App } from "./App"
 /// START: GOOGLE TAG MANAGER
 ////////////////////////////////////////////////////
 // @ts-ignore
-import TagManager from 'react-gtm-module'
+// import TagManager from 'react-gtm-module'
 
-const tagManagerArgs = {
-  gtmId: 'G-HWSTN8PYQP',
-  // dataLayer: {
-  //     userId: '001',
-  //     userProject: 'project'
-  // }
-}
+// const tagManagerArgs = {
+//   gtmId: 'G-HWSTN8PYQP',
+//   // dataLayer: {
+//   //     userId: '001',
+//   //     userProject: 'project'
+//   // }
+// }
 
-TagManager.initialize(tagManagerArgs)
+// TagManager.initialize(tagManagerArgs)
 
 ////////////////////////////////////////////////////
 /// END: GOOGLE TAG MANAGER

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+
 import {
   Box,
   Breadcrumb,
@@ -9,59 +9,55 @@ import {
   VStack,
   Text,
   Flex,
-  Button,
-  FormControl,
-  Input,
   HStack,
-  FormLabel,
   Link,
   Spacer,
   useDisclosure,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
+  StackDivider,
+  IconButton
 } from "@chakra-ui/react"
+import { HamburgerIcon, StarIcon } from "@chakra-ui/icons";
+import { ImPhone, ImLocation } from "react-icons/im";
+import { motion } from "framer-motion"
 
 // Hooks
-import { useProducts } from "../hooks/useProducts";
-
-// npm i emailjs-com
-import { send } from 'emailjs-com';
+import { useTheme } from "../hooks/useTheme";
+import { useFeature } from "../hooks/useFeature";
+import { useBusiness } from "../hooks/useBusiness";
+import { useReview } from "../hooks/useReview";
+import { useHours } from "../hooks/useHours";
+import Slideshow from "../Slideshow";
 
 // Images
-import logoTransBg from "../images/logo-trans-bg.png"
-import canadaFlag from "../images/canada-flag.png"
-import grille from "../images/grille.png"
+import imgCanadaFlag from "../images/header/canada-flag-128x128.png"
+// HEADER
+import imgHdrToolL from "../images/header/tool-m-image-L-201x75.png"
+import logoWhiteTransBG from "../images/logo/srm-logo-white-2488x1048.png"
+import logoColorTransBG from "../images/logo/srm-logo-color-2488x1048.png"
 
-// Social media images
-import instagram from "../images/instagram.png"
-import mail from "../images/mail.png"
-import phone from "../images/phone.png"
+// SECTION BGS
+import bgBlue from "../images/section-bgs/srm-section-blue-bg-2000x1125.png"
+import bgRed from "../images/section-bgs/srm-section-red-bg-2000x1125.png"
+import bgLightBlue from "../images/section-bgs/srm-section-lightblue-bg-2000x1125.png"
+import bgCars from "../images/section-bgs/srm-section-cars-bg-2000x1125.png"
 
-// Slideshow images
-import slide1 from "../images/slideshow/m4_f82_white_front.jpg"
-import slide2 from "../images/slideshow/bmw-m4-sky-blue.jpeg"
-import slide3 from "../images/slideshow/lsb-f30.jpg"
-import slide4 from "../images/slideshow/bmw-m4-black.jpg"
+// SERVICES
+import imgServGeoBG from "../images/card-bgs/srm-card-bg-geo-800x1000.png"
 
-/***********************************************************************************************************
- * CONSTANTS
- ***********************************************************************************************************/
+// LOCATION
+import imgLocBG from "../images/card-bgs/srm-card-bg-redstripe-800x1000.png"
 
-const slideImages = [slide1, slide2, slide3, slide4];
-const slideText = ['DOUBLE SLATS', 'GLOSS BLACK FINISH', 'BMW 3 SERIES GRILLZ', 'M3/M4 STYLE'];
-const SLIDE_DURATION = 3000;
+// SHOP
+import imgOutdoorShot from "../images/shop/outdoor-shot.png"
 
-const EMAIL_SERVICE_ID = 'service_tu97jv8';
-const EMAIL_TEMPLATE_ID = 'template_f30grillz';
-const EMAIL_API_KEY = 'Kk7OM6714fl9k01aL';
 
-const MESSAGE_SENT = 'Thank you for contacting us. Your message has been sent!';
-const MESSAGE_FAILED = 'Your message has not been sent. Please try again or try calling us.';
+
+
 
 /***********************************************************************************************************
  * CLASS
@@ -69,520 +65,783 @@ const MESSAGE_FAILED = 'Your message has not been sent. Please try again or try 
 const Home = () => {
 
   /***********************************************************************************************************
-   * CLASS CONSTANTS
-   ***********************************************************************************************************/
-  const PROD_FLEX_SIZE_S = '335px';
-  const PROD_FLEX_SIZE_M = '335px';
-  const PROD_FLEX_SIZE_L = '1245px';
-  const PROD_FLEX_SIZE_XL = '1245px';
-
-  const PROD_IMG_SIZE_S = '165px';
-  const PROD_IMG_SIZE_M = '165px';
-  const PROD_IMG_SIZE_L = '300px';
-  const PROD_IMG_SIZE_XL = '300px';
-
-  const PROD_TITLE_FONT_SIZE_S = '18px';
-  const PROD_TITLE_FONT_SIZE_M = '18px';
-  const PROD_TITLE_FONT_SIZE_L = '25px';
-  const PROD_TITLE_FONT_SIZE_XL = '25px';
-
-  const PROD_HDR_DESC_FONT_SIZE_S = '28px';
-  const PROD_HDR_DESC_FONT_SIZE_M = '28px';
-  const PROD_HDR_DESC_FONT_SIZE_L = '35px';
-  const PROD_HDR_DESC_FONT_SIZE_XL = '35px';
-
-  const PROD_DET_DESC_FONT_SIZE_S = '10px';
-  const PROD_DET_DESC_FONT_SIZE_M = '10px';
-  const PROD_DET_DESC_FONT_SIZE_L = '12px';
-  const PROD_DET_DESC_FONT_SIZE_XL = '12px';
-
-  /***********************************************************************************************************
    * CLASS VARIABLES
    ***********************************************************************************************************/
-  const { f30Products } = useProducts();
+
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const [currProdIndex, setCurrProdIndex] = useState(0);
+  const { colors, fonts, sizes } = useTheme();
+  const { card, BUSINESS_TITLE_DESCRIPTION, BUSINESS_ABOUT_DESCRIPTION1, BUSINESS_ABOUT_DESCRIPTION2, BUSINESS_ABOUT_DESCRIPTION3 } = useBusiness();
+  const { featureList, FEATURES_TITLE_DESCRIPTION } = useFeature();
+  const { reviewList, REVIEWS_TITLE_DESCRIPTION } = useReview();
+  const { hoursOfOperation } = useHours();
 
-  const [slideshowTimer, setSlideshowTimer] = useState<any>(null);
-
-  const [messageStatus, setMessageStatus] = useState('');
-
-  const [toSend, setToSend] = useState({
-    from_name: '',
-    reply_to: '',
-    to_name: '',
-    message: '',
-  });
-
-  /// Validation consts
-  const [formErrorName, setFormErrorName] = useState(false);
-  const [formErrorEmail, setFormErrorEmail] = useState(false);
-  const [formErrorMessage, setFormErrorMessage] = useState(false);
 
   /***********************************************************************************************************
    * CLASS FUNCTIONS
    ***********************************************************************************************************/
 
-  /// SHOW PROD DETAILS
-  function showProductDetailsPopUp(prodIndex: number) {
-    setCurrProdIndex(prodIndex);
+  /////////////////////////////////////////////////
+  // Handles opening menu drawer
+  /////////////////////////////////////////////////
+  function openMenuDrawer() {
+
     onOpen();
   }
 
-  /// SUBMIT FORM
-  const onSubmit = (e: { preventDefault: () => void; }) => {
-
-    // Required Fields
-    console.log("Validating...");
-
-    if (toSend.from_name === '' ||
-      toSend.reply_to === '' ||
-      toSend.message === '') {
-      setFormErrorName(toSend.from_name === '' ? true : false);
-      setFormErrorEmail(toSend.reply_to === '' ? true : false);
-      setFormErrorMessage(toSend.message === '' ? true : false);
-      console.log("Fields are missing");
-      return;
-    }
-
-
-    console.log("Sending..");
-    e.preventDefault();
-    e.preventDefault();
-
-    send(
-      EMAIL_SERVICE_ID,
-      EMAIL_TEMPLATE_ID,
-      toSend,
-      EMAIL_API_KEY
-    )
-      .then((response) => {
-        console.log('SUCCESS!', response.status, response.text);
-        setMessageStatus('SUCCESS');
-      })
-      .catch((err) => {
-        console.log('FAILED...', err);
-        setMessageStatus('FAILED');
-      });
-  };
-
-  /// CHANGE HANDLER: FORM
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
-    console.log("handleChange");
-    setMessageStatus('');
-    setToSend({ ...toSend, [e.target.name]: e.target.value });
-  };
-
-  /***********************************************************************************************************
-   * USE EFFECTS
-   ***********************************************************************************************************/
-  /// INTIALIZE SLIDESHOW DURATION
-  useEffect(() => {
-    setSlideshowTimer(slideImages.length);
-  }, [])
-
-  /// SLIDESHOW TIMER
-  useEffect(() => {
-    // console.log("slideshowTimer", slideshowTimer);
-    // exit early when we reach 0
-    // if (!slideshowTimer) return;
-
-    // loop when we reach 0 
-    if (!slideshowTimer) {
-      setSlideshowTimer(slideImages.length);
-    }
-
-    // save intervalId to clear the interval when the
-    // component re-renders
-    const intervalId = setInterval(() => {
-      setSlideshowTimer(slideshowTimer - 1);
-    }, SLIDE_DURATION);
-
-    // clear interval on re-render to avoid memory leaks
-    return () => clearInterval(intervalId);
-    // add timeLeft as a dependency to re-rerun the effect
-    // when we update it
-  }, [slideshowTimer]);
-
-  // CURRENT PROD INDEX
-  useEffect(() => {
-  }, [currProdIndex]);
-
-  /// FORM VALIDATION
-  useEffect(() => {
-  }, [formErrorName, formErrorEmail, formErrorMessage]);
-
-  /// FORM SUBMIT RESULT MESSAGE
-  useEffect(() => {
-  }, [messageStatus]);
 
   /***********************************************************************************************************
    * UI
    ***********************************************************************************************************/
   return (
-    <Box bgColor='transparent'>
+    <Box bgColor='white'>
 
-      {/* HEADER */}
+      {/* HEADER **********************************************************************************************************/}
       <Box
         as="header"
         position="fixed"
-        backgroundColor="rgba(49, 130, 206, 0.9)"
+        width='100%'
+        bgColor={colors.BG_HEADER}
         backdropFilter="saturate(5%) blur(5px)"
-        width="100%"
         pt={0}>
-        <VStack>
-          <Flex width={'100%'}>
-            <Spacer></Spacer>
-            <Link href="tel:+16473655329"><Text color='white' fontFamily={'bodyParagraph'} fontSize={['14px', '14px', '15px', '15px']} pt={['2px', '2px', '10px', '10px']} pr={'10px'}>(647) 365-5329</Text></Link>
-            <Image src={canadaFlag} width={["25px", "25px", "40px", "40px"]} mr={'10px'}></Image>
-          </Flex>
-          <Link href='https://www.f30grillz.com'><Image src={logoTransBg} width={["180px", "200px", "200px", "200px"]}></Image></Link>
 
-          <Breadcrumb separator='-' fontFamily={'heading'} fontSize={['15px', '20px', '22px', '26px']} color='white'>
+        <Center>
+          <HStack spacing={['0px', '0px', '10px', '40px']}
+            height={[sizes.HDR_HEIGHT_S, sizes.HDR_HEIGHT_S, sizes.HDR_HEIGHT_L, sizes.HDR_HEIGHT_L]}
+            width='100%'>
 
-            <BreadcrumbItem>
-              <BreadcrumbLink href='#grillz'>THE GRILLZ</BreadcrumbLink>
-            </BreadcrumbItem>
+            {/* IMAGE TOOL M (DESKTOP ONLY) */}
+            <Image display={{ base: "none", md: "flex" }} src={imgHdrToolL} width={[sizes.HDR_TOOL_WIDTH_S, sizes.HDR_TOOL_WIDTH_S, sizes.HDR_TOOL_WIDTH_L, sizes.HDR_TOOL_WIDTH_L]}></Image>
 
-            <BreadcrumbItem>
-              <BreadcrumbLink href='#prices'>PRODUCTS</BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem>
-              <BreadcrumbLink href='#faq'>FAQ</BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem>
-              <BreadcrumbLink href='#contact'>CONTACT</BreadcrumbLink>
-            </BreadcrumbItem>
-
-          </Breadcrumb>
-        </VStack>
-      </Box >
-
-      {/* MAIN */}
-      <Box as="main" mt={["160px", "160px", "160px", "160px"]} >
-
-        {/* SLIDESHOW */}
-        <Box backgroundImage={slideImages[slideshowTimer - 1]} backgroundPosition={'center'} backgroundSize={"cover"} height={['300px', '350px', '400px', '600px']} p={0} m={0} >
-          <Center>
-            <Box bgColor='blue.500' mt={['10px', '40px', '80px', '80px']} p={['1px']}
-              width={['330px', '330px', '360px', '400px']}
-              height={['50px', '50px', '60px', '65px']}>
-              <Text fontFamily={'bodyTitle'} fontSize={['30px', '30px', '35px', '40px']} color='white'>{slideText[slideshowTimer - 1]}</Text>
-            </Box>
-          </Center>
-        </Box>
-
-        {/* THE GRILLZ */}
-        <Box id='grillz' height='200px' backgroundColor='gray.800'></Box>
-        <Box backgroundColor='gray.800'>
-          <Center>
-            <VStack p={5} width={['100%', '100%', '60%', '60%']}>
-
-              <Box pb={5}>
-                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>THE GRILLZ</Text>
-              </Box>
-
-              <Box pb={3} m={0} width={'100%'}>
-                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>GLOSS BLACK</Text>
-                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>The gloss black finish steps up your front end game.</Text>
-              </Box>
-
-              <Box pb={3} m={0} width={'100%'}>
-                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>PERFECT FITMENT</Text>
-                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>2012-2018 F30 F31 F35 3-Series fitment.
-                  No gaps, no missing tabs. Fits like a glove.</Text>
-              </Box>
-
-              <Box pb={3} m={0} width={'100%'}>
-                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>M3/M4 STYLE</Text>
-                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Need we say more?</Text>
-              </Box>
-
-              <Image pb={3} src={grille} width={['250px']}></Image>
-
-              <Box pb={3} m={0} width={'100%'}>
-                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'right'}>DOUBLE SLATS</Text>
-                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'right'}>Double slats for that aggressive look, while allowing ample airflow through to your engine.</Text>
-              </Box>
-
-              <Box pb={3} m={0} width={'100%'}>
-                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'right'}>PREMIUM QUALITY</Text>
-                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'right'}>Machine measured and finished with premium materials without a premium price.</Text>
-              </Box>
-
-              <Box pb={3} m={0} width={'100%'}>
-                <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'right'}>NON-INVASIVE INSTALLATION</Text>
-                <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'right'}>No lift required. Mobile installation available in the Greater Toronto Area.</Text>
-              </Box>
-
-            </VStack>
-          </Center>
-        </Box>
-
-        {/* PRODUCTS */}
-        <Box id='prices' height='200px' backgroundColor='gray.800'></Box>
-        <Box backgroundColor='#15171a'>
-          <VStack p={5}>
-
-            <Box pb={5}>
-              <Text color='white' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>PRODUCTS</Text>
-            </Box>
-
-            <Center>
-              <Flex m={0} gap={['5px', '5px', '10px', '15px']} flexWrap={"wrap"} width={[PROD_FLEX_SIZE_S, PROD_FLEX_SIZE_M, PROD_FLEX_SIZE_L, PROD_FLEX_SIZE_XL]} bgColor='gray.800'>
-
-                {/* PRODUCT MAPPING */}
-                {f30Products.map((f30Prods, index) => (
-                  <Box backgroundColor={'white'} p='5px' border={"2px"} borderColor={'white'} maxW={[PROD_IMG_SIZE_S, PROD_IMG_SIZE_M, PROD_IMG_SIZE_L, PROD_IMG_SIZE_XL]}>
-                    <Image pb={3} src={f30Prods.thumb} objectFit={'contain'} boxSize={[PROD_IMG_SIZE_S, PROD_IMG_SIZE_M, PROD_IMG_SIZE_L, PROD_IMG_SIZE_XL]}
-                      onClick={() => showProductDetailsPopUp(index)}></Image>
-
-                    <Spacer></Spacer>
-
-                    <Text color='black' fontFamily={'bodyTitle'} fontSize={[PROD_TITLE_FONT_SIZE_S, PROD_TITLE_FONT_SIZE_M, PROD_TITLE_FONT_SIZE_L, PROD_TITLE_FONT_SIZE_XL]} textAlign={'center'}>{f30Prods.title}</Text>
-
-                    <VStack bgColor='#3182ce' color='white' fontFamily={'bodyParagraph'}
-                      fontSize={[PROD_TITLE_FONT_SIZE_S, PROD_TITLE_FONT_SIZE_M, PROD_TITLE_FONT_SIZE_L, PROD_TITLE_FONT_SIZE_XL]}>
-                      <Text>{f30Prods.price}</Text>
-                      <Text><Link target="_blank" href={f30Prods.linkURL}>{f30Prods.linkText}</Link></Text>
-                    </VStack>
-                  </Box>
-                ))}
-
-              </Flex>
-            </Center>
-
-          </VStack>
-        </Box>
-
-        {/* PRODUCT POP UP MODAL */}
-        <Modal onClose={onClose} isOpen={isOpen} size={["sm", "md", "xl", "2xl"]} isCentered>
-          <ModalOverlay bg='blackAlpha.100'
-            backdropFilter='blur(10px) hue-rotate(0deg)' />
-          <ModalContent bgColor='white' color='black'>
-            {/* <ModalHeader>{f30Products[currProdIndex].title}</ModalHeader> */}
-            <ModalCloseButton />
-            <ModalBody>
-              <HStack>
-                <Image pb={3} src={f30Products[currProdIndex].thumb} objectFit={'contain'} boxSize={[PROD_IMG_SIZE_M, PROD_IMG_SIZE_M, PROD_IMG_SIZE_L, PROD_IMG_SIZE_XL]}
-                  onClick={onOpen}></Image>
-
-                <VStack align='left' color='black'>
-                  {/* TITLE */}
-                  <Text fontSize={[PROD_HDR_DESC_FONT_SIZE_S, PROD_HDR_DESC_FONT_SIZE_M, PROD_HDR_DESC_FONT_SIZE_L, PROD_HDR_DESC_FONT_SIZE_XL]} fontFamily={'bodyTitle'}>{f30Products[currProdIndex].title}</Text>
-                  {/* PRICE */}
-                  <Text fontSize={[PROD_HDR_DESC_FONT_SIZE_S, PROD_HDR_DESC_FONT_SIZE_M, PROD_HDR_DESC_FONT_SIZE_L, PROD_HDR_DESC_FONT_SIZE_XL]} fontFamily={'bodyParagraph'}>{f30Products[currProdIndex].price}</Text>
-                  {/* LINK */}
-                  <Text fontSize={[PROD_HDR_DESC_FONT_SIZE_S, PROD_HDR_DESC_FONT_SIZE_M, PROD_HDR_DESC_FONT_SIZE_L, PROD_HDR_DESC_FONT_SIZE_XL]} fontFamily={'bodyTitle'}
-                    color='white' bgColor='#3182ce' align='center'>
-                    <Link target="_blank" href={f30Products[currProdIndex].linkURL}>{f30Products[currProdIndex].linkText}</Link>
-                  </Text>
-                  <Text fontSize={[PROD_DET_DESC_FONT_SIZE_S, PROD_DET_DESC_FONT_SIZE_M, PROD_DET_DESC_FONT_SIZE_L, PROD_DET_DESC_FONT_SIZE_XL]}>{f30Products[currProdIndex].descLine1}</Text>
-                  <Text fontSize={[PROD_DET_DESC_FONT_SIZE_S, PROD_DET_DESC_FONT_SIZE_M, PROD_DET_DESC_FONT_SIZE_L, PROD_DET_DESC_FONT_SIZE_XL]}>{f30Products[currProdIndex].descLine2}</Text>
-                  <Text fontSize={[PROD_DET_DESC_FONT_SIZE_S, PROD_DET_DESC_FONT_SIZE_M, PROD_DET_DESC_FONT_SIZE_L, PROD_DET_DESC_FONT_SIZE_XL]}>{f30Products[currProdIndex].descLine3}</Text>
-                </VStack>
+            {/* LOGO IMG/TXT */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.0 }}
+            >
+              <Link href={card.BUS_WEBSITE}>
+                <Image src={logoWhiteTransBG} ml={{ base: '20px', md: '0px' }}
+                  width={[sizes.HDR_LOGO_WIDTH_S, sizes.HDR_LOGO_WIDTH_S, sizes.HDR_LOGO_WIDTH_L, sizes.HDR_LOGO_WIDTH_L]} />
+              </Link>
+            </motion.div>
 
 
+            {/* BUS INFO (MOB ONLY) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.0 }}
+            >
+              <HStack display={{ base: "block", md: "none" }}
+                fontSize={[fonts.BUS_INFO_SIZE_S, fonts.BUS_INFO_SIZE_S, fonts.BUS_INFO_SIZE_L, fonts.BUS_INFO_SIZE_L]}
+                fontWeight={"bold"}
+                fontFamily={'heading'}
+                color={colors.TXT_HEADER}
+                spacing='20px'>
 
+                <Spacer></Spacer>
+
+                {/* PHONE */}
+                <HStack spacing='2px'>
+                  <ImPhone />
+                  <Link href={"Tel:+1" + card.BUS_PHONE1}>{card.BUS_PHONE1}</Link>
+                </HStack>
+                {/* ADDRESS */}
+                <HStack spacing='2px'>
+                  <ImLocation />
+                  <Text>{card.BUS_ADDRESS}</Text>
+                </HStack>
               </HStack>
-            </ModalBody>
-            <ModalFooter>
-              <Button onClick={onClose}>Close</Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+            </motion.div>
 
+            {/* MOBILE ONLY - PUSH HAMBURGER */}
+            <Spacer display={{ base: "block", md: "none" }}></Spacer>
 
+            {/* BUS INFO (DESKTOP ONLY) / NAV (BOTH) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.0 }}
+            >
+              <VStack spacing='0px' color={colors.TXT_HEADER} fontFamily={'heading'} fontWeight={"bold"} pl='30px'>
 
+                {/* BUS INFO (DESKTOP ONLY) */}
+                <HStack display={{ base: "none", md: "flex" }}
+                  fontSize={[fonts.BUS_INFO_SIZE_S, fonts.BUS_INFO_SIZE_S, fonts.BUS_INFO_SIZE_L, fonts.BUS_INFO_SIZE_L]}
+                  spacing='20px'
+                  width='100%'>
+                  <Spacer></Spacer>
+                  {/* PHONE */}
+                  <HStack spacing='4px'>
+                    <Text pt={{ md: '4px' }} pr='5px' color={colors.ACCENT_BODY2}>Call us Today!</Text>
+                    <ImPhone />
+                    <Link pt={{ md: '4px' }} href={"Tel:+1" + card.BUS_PHONE1}>{card.BUS_PHONE1}</Link>
+                  </HStack>
+                  {/* ADDRESS */}
+                  <HStack spacing='4px'>
+                    <ImLocation />
+                    <Text pt={{ md: '4px' }}>{card.BUS_ADDRESS}</Text>
+                  </HStack>
+                </HStack>
 
+                {/* DESKTOP NAV */}
+                <HStack display={{ base: "none", md: "block" }} >
+                  <Spacer></Spacer>
 
-        {/* FAQ */}
-        <Box id='faq' height='200px' backgroundColor='#15171a'></Box>
-        <Box backgroundColor='gray.800'>
-          <VStack p={5}>
+                  <Breadcrumb separator='-' width='100%'
+                    fontSize={[fonts.NAV_SIZE_S, fonts.NAV_SIZE_S, fonts.NAV_SIZE_L, fonts.NAV_SIZE_L]}>
 
-            <Box pb={5}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>FAQ</Text>
-            </Box>
+                    <BreadcrumbItem>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.2,
+                          transition: { duration: 0.2 },
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <BreadcrumbLink href='#'>HOME</BreadcrumbLink>
+                      </motion.button>
+                    </BreadcrumbItem>
 
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>What's the difference between F30 Grillz and grills on Amazon?</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Simply put, our grills are better quality. We have done the work to source out the best quality after market grills available. The plastic on our grills is stronger and the slats are slightly thicker. We have the Amazon grills and can show you the difference.</Text>
-            </Box>
+                    <BreadcrumbItem>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.2,
+                          transition: { duration: 0.2 },
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <BreadcrumbLink href='#about'>ABOUT</BreadcrumbLink>
+                      </motion.button>
+                    </BreadcrumbItem>
 
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Do you offer shipping?</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>We do not offer shipping on our grills, however all of our recommended products can be purchased through our Amazon partnershipi and shipped directly to your door.</Text>
-            </Box>
+                    <BreadcrumbItem>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.2,
+                          transition: { duration: 0.2 },
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <BreadcrumbLink href='#services'>SERVICES</BreadcrumbLink>
+                      </motion.button>
+                    </BreadcrumbItem>
 
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Do you need to remove my bumper to install the grills?</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>The installation does not require bumper removal. Installation can be done on the spot and takes about 20 minutes. We strongly recommend letting us do the swap for you to avoid breaking the tabs on the grills, or breaking the inserts on your bumper.</Text>
-            </Box>
+                    <BreadcrumbItem>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.2,
+                          transition: { duration: 0.2 },
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <BreadcrumbLink href='#location'>LOCATION</BreadcrumbLink>
+                      </motion.button>
+                    </BreadcrumbItem>
 
-            <Box pb={3} m={0} width={'100%'}>
-              <Text color='blue.500' fontFamily={'bodyTitle'} fontSize={['25px', '25px', '30px', '35px']} textAlign={'left'}>Will these fit my car?</Text>
-              <Text color='white' fontFamily={'bodyParagraph'} fontSize={'14px'} textAlign={'left'}>Our grills fit all F30, F31, and F35 BMWs. Basically, if you have a 3-series made between 2012-2018, they will fit like a glove.</Text>
-            </Box>
+                    <BreadcrumbItem>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.2,
+                          transition: { duration: 0.2 },
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <BreadcrumbLink href='#hours'>HOURS</BreadcrumbLink>
+                      </motion.button>
+                    </BreadcrumbItem>
 
-          </VStack>
-        </Box>
+                  </Breadcrumb>
+                </HStack>
 
-
-        {/* CONTACT */}
-        <Box id='contact' backgroundColor='#15171a'>
-          <VStack p={5}>
-
-            <Box pb={0}>
-              <Text color='white' fontFamily={'bodyTitle'} fontSize={['45px', '50px', '55px', '65px']}>CONTACT US</Text>
-            </Box>
-
-            <Center>
-              <VStack>
-
-                <Box p={'20px'} backgroundColor='gray.800'>
-                  {messageStatus === '' && (
-                    <>
-                      <FormControl onSubmit={onSubmit} isRequired>
-                        <VStack align={'left'}>
-
-                          {/* NAME */}
-                          <FormLabel fontFamily={'bodyParagraph'} mb={'0px'} color='white'>Name</FormLabel>
-                          <Input
-                            type='text'
-                            name='from_name'
-                            placeholder='Enter your name'
-                            value={toSend.from_name}
-                            onChange={handleChange}
-                            backgroundColor='white'
-                            isInvalid={formErrorName}
-                            width={['300px', '300px', '400px', '400px']}
-                          />
-                          {formErrorName === true && (
-                            <>
-                              <Text fontFamily={'bodyParagraph'} fontSize={'12px'} color={'red.400'} textAlign={'left'}>Name is required</Text>
-                            </>
-                          )}
-
-                          {/* EMAIL */}
-                          <FormLabel fontFamily={'bodyParagraph'} color='white' pt={'15px'}>Email</FormLabel>
-                          <Input
-                            type='email'
-                            name='reply_to'
-                            placeholder='Enter your email'
-                            value={toSend.reply_to}
-                            onChange={handleChange}
-                            backgroundColor='white'
-                            isInvalid={formErrorEmail}
-                            width={['300px', '300px', '400px', '400px']}
-                          />
-                          {formErrorEmail === true && (
-                            <>
-                              <Text fontFamily={'bodyParagraph'} fontSize={'12px'} color={'red.400'} textAlign={'left'}>Email is required</Text>
-                            </>
-                          )}
-
-                          {/* <Input
-                          type='text'
-                          name='to_name'
-                          placeholder='to name'
-                          value={toSend.to_name}
-                          onChange={handleChange}
-                          backgroundColor='white'
-                        /> */}
-
-                          {/* MESSAGE */}
-                          <FormLabel fontFamily={'bodyParagraph'} color='white' pt={'15px'}>Message</FormLabel>
-                          <Input
-                            type='text'
-                            name='message'
-                            placeholder='Enter your message'
-                            value={toSend.message}
-                            onChange={handleChange}
-                            backgroundColor='white'
-                            isInvalid={formErrorMessage}
-                            width={['300px', '300px', '400px', '400px']}
-                          />
-                          {formErrorMessage === true && (
-                            <>
-                              <Text fontFamily={'bodyParagraph'} fontSize={'12px'} color={'red.400'} textAlign={'left'}>Message is required</Text>
-                            </>
-                          )}
-
-                          {/* BUTTON */}
-                          <Box pt={'15px'} width={'100%'}>
-                            <Button type='submit' onClick={onSubmit} colorScheme={'blue'} fontFamily={'bodyParagraph'} width={'100%'}>Submit</Button>
-                          </Box>
-                        </VStack>
-                      </FormControl>
-                    </>
-                  )}
-
-                  {/* MESSAGE STATUS */}
-                  {messageStatus === 'SUCCESS' && (
-                    <>
-                      <Text color='#3182ce'>{MESSAGE_SENT}</Text>
-                    </>
-                  )}
-                  {messageStatus === 'FAILED' && (
-                    <>
-                      <Text color='#3182ce'>{MESSAGE_FAILED}</Text>
-                    </>
-                  )}
-
-                </Box>
-
-                {/* CONTACT SOCIALS */}
-                <HStack pt={'30px'}>
-                  <Box maxW={['170px', '200px', '300px', '400px']}>
-                    <Center>
-                      <VStack>
-                        <Image pb={3} src={mail} objectFit={'contain'} boxSize={'40px'}></Image>
-                        <Text color='white' fontFamily={'bodyTitle'} fontSize={['18px', '25px', '25px', '25px']} textAlign={'center'}>info@f30grillz.com</Text>
-                      </VStack>
-                    </Center>
-                  </Box>
-
-                  <Box width={'15px'}></Box>
-                  <Box maxW={['170px', '200px', '300px', '400px']}>
-                    <Center>
-                      <VStack>
-                        <Image pb={3} src={instagram} objectFit={'contain'} boxSize={'40px'}></Image>
-                        <Link href="https://www.instagram.com/f30grillz/" target="_blank"><Text color='white' fontFamily={'bodyTitle'} fontSize={['18px', '25px', '25px', '25px']} textAlign={'center'}>F30GRILLZ</Text></Link>
-                      </VStack>
-                    </Center>
-                  </Box>
-
-                  <Box width={'15px'}></Box>
-
-                  <Box maxW={['170px', '200px', '300px', '400px']}>
-                    <Center>
-                      <VStack>
-                        <Image pb={3} src={phone} objectFit={'contain'} boxSize={'40px'}></Image>
-                        <Link href="tel:+16473655329"><Text color='white' fontFamily={'bodyTitle'} fontSize={['18px', '25px', '25px', '25px']} textAlign={'center'}>(647) 365-5329</Text></Link>
-                      </VStack>
-                    </Center>
-                  </Box>
+                {/* MOBILE NAV BUTTON (HAMBURGER) */}
+                <HStack display={{ base: "block", md: "none" }}>
+                  <Spacer></Spacer>
+                  <IconButton
+                    bgColor={colors.BG_HEADER}
+                    color={colors.TXT_HEADER}
+                    aria-label='Menu'
+                    icon={<HamburgerIcon />}
+                    onClick={openMenuDrawer}></IconButton>
                 </HStack>
 
               </VStack>
-            </Center>
+            </motion.div>
+
+          </HStack>
+        </Center>
+
+      </Box>
+
+
+      {/* MOBILE NAV DRAWER **********************************************************************************************/}
+      <Drawer onClose={onClose} isOpen={isOpen} placement='right' size={'xs'}>
+        <DrawerOverlay />
+        <DrawerContent bgColor={colors.BG_HEADER} color={colors.TXT_HEADER}>
+          <DrawerCloseButton />
+
+          {/* DRAWER BODY */}
+          <DrawerBody
+            fontSize={[fonts.NAV_SIZE_S, fonts.NAV_SIZE_S, fonts.NAV_SIZE_L, fonts.NAV_SIZE_L]}
+            fontFamily={'heading'} fontWeight={"bold"}
+            pt='40px' m='0px' mt='0px'>
+
+            <VStack divider={<StackDivider borderColor='gray.200' />}
+              spacing={'10px'}
+              align='stretch'>
+              <Box></Box>
+              <Box>
+                <Link href='#'>HOME</Link>
+              </Box>
+              <Box>
+                <Link href='#about'>ABOUT</Link>
+              </Box>
+              <Box>
+                <Link href='#services'>SERVICES</Link>
+              </Box>
+              <Box>
+                <Link href='#location'>LOCATION</Link>
+              </Box>
+              <Box>
+                <Link href='#hours'>HOURS</Link>
+              </Box>
+
+              <Box></Box>
+            </VStack>
+
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+
+
+
+
+      {/* MAIN ***********************************************************************************************************/}
+      <Box as="main" mt={[sizes.HDR_HEIGHT_S, sizes.HDR_HEIGHT_S, sizes.HDR_HEIGHT_L, sizes.HDR_HEIGHT_L]}>
+        <Slideshow autoplay={true} />
+
+
+
+        {/* ABOUT */}
+        <Box id='about' height='100px' backgroundColor='white'></Box> {/* VERTICAL SPACER */}
+        {/* <Box bgImage={bgRed} bgPos={"center"} bgRepeat={'no-repeat'} bgSize={'cover'}> */}
+        <Box>
+          <VStack p={5}>
+
+            {/* TITLE */}
+            <VStack pb={5}>
+              <motion.div
+                whileHover={{
+                  scale: 1.2,
+                  transition: { duration: 0.2 },
+                }}
+              >
+                <Text color={colors.TXT_BODY1} fontFamily={'heading'} fontWeight={'bold'}
+                  fontSize={[fonts.H1_SIZE_S, fonts.H1_SIZE_S, fonts.H1_SIZE_L, fonts.H1_SIZE_L]}>
+                  ABOUT
+                </Text>
+              </motion.div>
+
+
+              <Flex m={0} gap={['5px', '5px', '10px', '15px']} flexWrap={"wrap"}
+                width={[sizes.GRID_FLEX_SIZE_S, sizes.GRID_FLEX_SIZE_M, sizes.GRID_FLEX_SIZE_L, sizes.GRID_FLEX_SIZE_XL]}
+                justifyContent={'left'}>
+                <Box color={colors.TXT_BODY1} fontFamily={'body'} textAlign={'left'}
+                  fontSize={[fonts.H2_SIZE_S, fonts.H2_SIZE_S, fonts.H2_SIZE_L, fonts.H2_SIZE_L]}>
+                  <Text pt='30px'>
+                    {BUSINESS_ABOUT_DESCRIPTION1}
+                  </Text>
+                  <Text pt='30px'>
+                    {BUSINESS_ABOUT_DESCRIPTION2}
+                  </Text>
+                  <Text pt='30px'>
+                    {BUSINESS_ABOUT_DESCRIPTION3}
+                  </Text>
+                </Box>
+              </Flex>
+            </VStack>
 
           </VStack>
-
         </Box>
+
+
+
+
+
+
+        {/* SERVICES */}
+        <Box id='services' height='100px' backgroundColor='white'></Box> {/* VERTICAL SPACER */}
+        <Box bgImage={bgRed} bgPos={"center"} bgRepeat={'no-repeat'} bgSize={'cover'}>
+          <VStack p={5}>
+
+            {/* TITLE */}
+            <VStack pb={5}>
+              <motion.div
+                whileHover={{
+                  scale: 1.2,
+                  transition: { duration: 0.2 },
+                }}
+              >
+                <Text color={colors.TXT_BODY1} fontFamily={'heading'} fontWeight={'bold'}
+                  fontSize={[fonts.H1_SIZE_S, fonts.H1_SIZE_S, fonts.H1_SIZE_L, fonts.H1_SIZE_L]}>
+                  SERVICES
+                </Text>
+              </motion.div>
+              <Text color={colors.TXT_BODY1} fontFamily={'body'}
+                fontSize={[fonts.H2_SIZE_S, fonts.H2_SIZE_S, fonts.H2_SIZE_L, fonts.H2_SIZE_L]}>
+                {FEATURES_TITLE_DESCRIPTION}
+              </Text>
+            </VStack>
+
+
+            {/* GRID WIDTH */}
+            <Flex m={0} gap={['5px', '5px', '10px', '15px']} flexWrap={"wrap"}
+              width={[sizes.GRID_FLEX_SIZE_S, sizes.GRID_FLEX_SIZE_M, sizes.GRID_FLEX_SIZE_L, sizes.GRID_FLEX_SIZE_XL]}
+              justifyContent={'center'}>
+
+              {/* SERVICES MAPPING */}
+              {featureList.map((feat, index: any) => (
+
+                // BG IMAGE
+                <Box
+                  p='0px'
+                  boxShadow='dark-lg' rounded='md'
+                  bgImage={imgServGeoBG} bgPosition={'center'} bgSize={'cover'} bgRepeat={'no-repeat'}
+                  width={[sizes.FEAT_W_S, sizes.FEAT_W_M, sizes.FEAT_W_L, sizes.FEAT_W_XL]}
+                  height={[sizes.FEAT_H_S, sizes.FEAT_H_M, sizes.FEAT_H_L, sizes.FEAT_H_XL]}>
+
+                  {/* CARD */}
+                  <VStack
+                    // border='4px' borderColor={colors.TXT_BODY1}
+                    // bgImage={imgServGeoBG} bgPosition={'center'} bgSize={'cover'} bgRepeat={'no-repeat'}
+                    width={[sizes.FEAT_W_S, sizes.FEAT_W_M, sizes.FEAT_W_L, sizes.FEAT_W_XL]}
+                    height={[sizes.FEAT_H_S, sizes.FEAT_H_M, sizes.FEAT_H_L, sizes.FEAT_H_XL]}
+                  >
+
+                    {/* IMAGE */}
+                    <Center>
+                      <motion.div
+                        whileHover={{
+                          scale: 1.2,
+                          transition: { duration: 0.2 },
+                        }}
+                      >
+                        <Image mt={'20px'} src={feat.thumb}
+                          boxSize={[sizes.FEAT_IMG_W_S, sizes.FEAT_IMG_W_M, sizes.FEAT_IMG_W_L, sizes.FEAT_IMG_W_XL]}
+                          objectFit={'contain'}></Image>
+                      </motion.div>
+                    </Center>
+                    {/* SERVICE TITLE */}
+                    <Text color='white' fontFamily={'heading'} pt='20px'
+                      fontSize={[fonts.FEAT_TITLE_FONT_SIZE_S, fonts.FEAT_TITLE_FONT_SIZE_M, fonts.FEAT_TITLE_FONT_SIZE_L, fonts.FEAT_TITLE_FONT_SIZE_XL]}
+                      textAlign={'center'}>
+                      {feat.title}
+                    </Text>
+
+                  </VStack>
+
+                </Box>
+
+              ))}
+
+            </Flex>
+
+          </VStack>
+        </Box>
+
+        {/* REVIEWS */}
+        <Box id='reviews' height='100px' backgroundColor='white'></Box> {/* VERTICAL SPACER */}
+        <Box bgImage={bgBlue} bgPos={"center"} bgRepeat={'no-repeat'} bgSize={'cover'}>
+          <VStack p={5}>
+
+            {/* TITLE */}
+            <VStack pb={5}>
+              <motion.div
+                whileHover={{
+                  scale: 1.2,
+                  transition: { duration: 0.2 },
+                }}
+              >
+                <Text color={colors.ACCENT_BODY1} fontFamily={'heading'} fontWeight={'bold'}
+                  fontSize={[fonts.H1_SIZE_S, fonts.H1_SIZE_S, fonts.H1_SIZE_L, fonts.H1_SIZE_L]}>
+                  CUSTOMER REVIEWS
+                </Text>
+              </motion.div>
+              <Text color={colors.TXT_BODY1} fontFamily={'body'}
+                fontSize={[fonts.H2_SIZE_S, fonts.H2_SIZE_S, fonts.H2_SIZE_L, fonts.H2_SIZE_L]}>
+                {REVIEWS_TITLE_DESCRIPTION}
+              </Text>
+            </VStack>
+
+            {/* SEE ALL REVIEWS */}
+            <Box
+              pb={{ base: '10px', md: '15px' }}
+              width='100%'>
+              <Center width='100%' justifyContent={['center', 'center', 'center', 'center']}>
+
+                <motion.button
+                  whileHover={{
+                    scale: 1.2,
+                    transition: { duration: 0.2 },
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Text
+                    fontSize={[fonts.BNR_P_SIZE_S, fonts.BNR_P_SIZE_S, fonts.BNR_P_SIZE_L, fonts.BNR_P_SIZE_L]}
+                    fontFamily='body' fontWeight={'bold'} fontStyle='italic'
+                    width={['340px', '340px', '400px', '400px']}
+                    height={{ base: '45px', md: '60px' }}
+                    textAlign={['center', 'center', 'center', 'center']}
+                    bgColor={colors.ACCENT_BODY1}
+                    color='white'
+                    border={'1px solid black'}
+                    borderRadius={'xl'}
+                    boxShadow='dark-lg' rounded='md'
+                    // bgImg={callToActionBG} bgRepeat={'no-repeat'} bgSize={'contain'} bgPosition={'center'}
+                    pt={['10px', '11px', '15px', '15px']}>
+                    <Link href={card.REVIEWS} target="_blank">
+                      SEE ALL OUR REVIEWS
+                    </Link>
+                  </Text>
+                </motion.button>
+              </Center>
+            </Box>
+
+
+            {/* GRID WIDTH */}
+            <Flex m={0} gap={['5px', '5px', '10px', '15px']} flexWrap={"wrap"}
+              width={[sizes.GRID_FLEX_SIZE_S, sizes.GRID_FLEX_SIZE_M, sizes.GRID_FLEX_SIZE_L, sizes.GRID_FLEX_SIZE_XL]}
+              justifyContent={'center'}>
+
+              {/* REVIEWS MAPPING */}
+              {reviewList.map((review, index) => (
+
+                <motion.div
+                  whileHover={{
+                    scale: 1.2,
+                    transition: { duration: 0.2 },
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                >
+
+                  {/* BG IMAGE */}
+                  <Box p='0px'
+                    width={[sizes.REVIEW_W_S, sizes.REVIEW_W_M, sizes.REVIEW_W_L, sizes.REVIEW_W_XL]}
+                    height={[sizes.REVIEW_H_S, sizes.REVIEW_H_M, sizes.REVIEW_H_L, sizes.REVIEW_H_XL]}>
+
+                    {/* CARD */}
+                    <VStack key={index} border='4px' borderColor={colors.ACCENT_BODY1} bgColor='white'
+                      // bgImage={imgServBG}
+                      width={[sizes.REVIEW_W_S, sizes.REVIEW_W_M, sizes.REVIEW_W_L, sizes.REVIEW_W_XL]}
+                      height={[sizes.REVIEW_H_S, sizes.REVIEW_H_M, sizes.REVIEW_H_L, sizes.REVIEW_H_XL]}
+                    >
+
+                      {/* PROFILE IMAGE */}
+                      <Center>
+                        <Image mt={'20px'} src={review.thumb}
+                          boxSize={[sizes.REVIEW_PROF_IMG_W_S, sizes.REVIEW_PROF_IMG_W_M, sizes.REVIEW_PROF_IMG_W_L, sizes.REVIEW_PROF_IMG_W_XL]}
+                          objectFit={'contain'}></Image>
+                      </Center>
+                      {/* NAME */}
+                      <HStack>
+                        <Image src={review.sourceThumb} boxSize={[sizes.REVIEW_SOURCE_IMG_W_S, sizes.REVIEW_SOURCE_IMG_W_M, sizes.REVIEW_SOURCE_IMG_W_L, sizes.REVIEW_SOURCE_IMG_W_XL]} />
+                        <Text width='100%' fontWeight={'bold'} fontSize={[fonts.REVIEW_NAME_SIZE_S, fonts.REVIEW_NAME_SIZE_S, fonts.REVIEW_NAME_SIZE_L, fonts.REVIEW_NAME_SIZE_L]}>
+                          {review.name}
+                        </Text>
+                      </HStack>
+                      {/* RATING */}
+                      <Box display='flex' mt='2' alignItems='center'>
+                        {/* STARS/RATING */}
+                        {Array(5)
+                          .fill('')
+                          .map((_, i) => (
+                            <StarIcon
+                              key={i}
+                              color={i < review.rating ? colors.ACCENT_BODY1 : 'gray.300'}
+                            />
+                          ))}
+                        {/* # OF REVIEWS */}
+                        <Box as='span' ml='2' color='gray.600' fontSize='sm'>
+                          {review.reviewCount} reviews
+                        </Box>
+                      </Box>
+
+                      {/* COMMENT */}
+                      <Text align='left' p='10px'
+                        fontFamily={'body'}
+                        fontStyle={'italic'}
+                        fontSize={[fonts.REVIEW_COMMENT_SIZE_S, fonts.REVIEW_COMMENT_SIZE_S, fonts.REVIEW_COMMENT_SIZE_L, fonts.REVIEW_COMMENT_SIZE_L]}>
+                        {review.comment.substring(0, 220)} ...
+                        <Link href={review.link} target='_blank' fontWeight={'bold'}
+                          color={colors.ACCENT_BODY1}
+                          fontSize={[fonts.REVIEW_COMMENT_SIZE_S, fonts.REVIEW_COMMENT_SIZE_S, fonts.REVIEW_COMMENT_SIZE_L, fonts.REVIEW_COMMENT_SIZE_L]}>
+                          Full Review
+                        </Link>
+                      </Text>
+
+                    </VStack>
+                  </Box>
+                </motion.div>
+              ))}
+
+            </Flex>
+
+
+          </VStack>
+        </Box>
+
+
+
+
+
+
+
+        {/* LOCATION */}
+        <Box id='location' height='100px' backgroundColor='white'></Box> {/* VERTICAL SPACER */}
+        <Box bgImage={bgLightBlue} bgPos={"center"} bgRepeat={'no-repeat'} bgSize={'cover'}>
+          <VStack p={5}>
+
+            {/* TITLE */}
+            <VStack pb={5}>
+              <motion.div
+                whileHover={{
+                  scale: 1.2,
+                  transition: { duration: 0.2 },
+                }}
+              >
+                <Text color={colors.TXT_BODY1} fontFamily={'heading'} fontWeight={'bold'}
+                  fontSize={[fonts.H1_SIZE_S, fonts.H1_SIZE_S, fonts.H1_SIZE_L, fonts.H1_SIZE_L]}>
+                  LOCATION
+                </Text>
+              </motion.div>
+              <Text color={colors.TXT_BODY1} fontFamily={'body'}
+                fontSize={[fonts.H2_SIZE_S, fonts.H2_SIZE_S, fonts.H2_SIZE_L, fonts.H2_SIZE_L]}>
+                {BUSINESS_TITLE_DESCRIPTION}
+              </Text>
+            </VStack>
+
+
+            {/* DIRECTIONS */}
+            <Box
+              pb={{ base: '10px', md: '15px' }}
+              width='100%'>
+              <Center width='100%' justifyContent={['center', 'center', 'center', 'center']}>
+
+                <motion.button
+                  whileHover={{
+                    scale: 1.2,
+                    transition: { duration: 0.2 },
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Text
+                    fontSize={[fonts.BNR_P_SIZE_S, fonts.BNR_P_SIZE_S, fonts.BNR_P_SIZE_L, fonts.BNR_P_SIZE_L]}
+                    fontFamily='body' fontWeight={'bold'} fontStyle='italic'
+                    width={['340px', '340px', '400px', '400px']}
+                    height={{ base: '45px', md: '60px' }}
+                    textAlign={['center', 'center', 'center', 'center']}
+                    bgColor={colors.ACCENT_BODY3}
+                    color='white'
+                    border={'1px solid black'}
+                    borderRadius={'xl'}
+                    boxShadow='dark-lg' rounded='md'
+                    // bgImg={callToActionBG} bgRepeat={'no-repeat'} bgSize={'contain'} bgPosition={'center'}
+                    pt={['10px', '11px', '15px', '15px']}>
+                    <Link href={card.DIRECTIONS} target="_blank">
+                      CLICK HERE FOR DRIVING DIRECTIONS
+                    </Link>
+                  </Text>
+                </motion.button>
+              </Center>
+            </Box>
+
+            {/* CONTENT */}
+            <Box display={{ md: "flex" }}
+              color={colors.TXT_HEADER}
+              width={[sizes.GRID_FLEX_SIZE_S, sizes.GRID_FLEX_SIZE_M, sizes.GRID_FLEX_SIZE_L, sizes.GRID_FLEX_SIZE_XL]}
+              height={[sizes.LOCATION_H_S, sizes.LOCATION_H_M, sizes.LOCATION_H_L, sizes.LOCATION_H_XL]}>
+              {/* ADDRESS */}
+              <Box flexShrink={0}
+                bgImage={imgLocBG} bgPosition={'center'} bgSize={'cover'} bgRepeat={'no-repeat'}
+                fontFamily='body'
+                fontSize={[fonts.ADDRESS_SIZE_S, fonts.ADDRESS_SIZE_S, fonts.ADDRESS_SIZE_L, fonts.ADDRESS_SIZE_L]}
+                width={[sizes.ADDR_W_S, sizes.ADDR_W_M, sizes.ADDR_W_L, sizes.ADDR_W_XL]}
+                height={[sizes.ADDR_H_S, sizes.ADDR_H_M, sizes.ADDR_H_L, sizes.ADDR_H_XL]}
+                pt={['30px', '30px', '40px', '40px']}>
+                {/* Business Name */}
+                <Text fontWeight='bold' pb='10px'>{card.BUS_NAME}</Text>
+                {/* Address */}
+                <Text>{card.BUS_ADDRESS}</Text>
+                <Text>{card.BUS_CITY_PROV}</Text>
+                <Text>{card.BUS_POSTAL_CODE}</Text>
+
+                {/* Phone */}
+                <Text pt='10px'>Rami: <Link color={colors.ACCENT_BODY2} href={"Tel:+1" + card.BUS_PHONE1}>{card.BUS_PHONE1}</Link></Text>
+                <Text>Front Desk: <Link color={colors.ACCENT_BODY2} href={"Tel:+1" + card.BUS_PHONE1}>{card.BUS_PHONE2}</Link></Text>
+                <Text>Office: <Link color={colors.ACCENT_BODY2} href={"Tel:+1" + card.BUS_PHONE1}>{card.BUS_PHONE3}</Link></Text>
+
+
+                {/* Image */}
+                <Image pt='20px'
+                  borderRadius="lg"
+                  // width={{ md: 40 }}
+                  src={imgOutdoorShot} />
+              </Box>
+              {/* MAP */}
+              <Box mt={{ base: 4, md: 0 }} ml={{ md: 6 }} bgColor={colors.ACCENT_BODY1}
+                width='100%'
+                height={[sizes.MAP_H_S, sizes.MAP_H_M, sizes.MAP_H_L, sizes.MAP_H_XL]}>
+                <iframe title="safer ride motors address" src={card.LOCATION} loading="lazy" width='100%' height='100%'></iframe>
+              </Box>
+            </Box>
+
+          </VStack>
+        </Box>
+
+
+
+
+
+        {/* HOURS */}
+        <Box id='hours' height='100px' backgroundColor='white'></Box> {/* VERTICAL SPACER */}
+        <Box bgImage={bgCars} bgPos={"center"} bgRepeat={'no-repeat'} bgSize={'cover'}>
+          {/* <Box> */}
+          <VStack p={5}>
+
+            {/* TITLE */}
+            <VStack pb={5}>
+              <motion.div
+                whileHover={{
+                  scale: 1.2,
+                  transition: { duration: 0.2 },
+                }}
+              >
+                <Text color={colors.TXT_BODY1} fontFamily={'heading'} fontWeight={'bold'}
+                  fontSize={[fonts.H1_SIZE_S, fonts.H1_SIZE_S, fonts.H1_SIZE_L, fonts.H1_SIZE_L]}>
+                  HOURS
+                </Text>
+              </motion.div>
+              {/* <Text color={colors.TXT_BODY1} fontFamily={'body'}
+                fontSize={[fonts.H2_SIZE_S, fonts.H2_SIZE_S, fonts.H2_SIZE_L, fonts.H2_SIZE_L]}>
+                {FEATURES_TITLE_DESCRIPTION}
+              </Text> */}
+            </VStack>
+
+            <Box fontFamily='heading'>
+              <Text fontSize={[fonts.H2_SIZE_S, fonts.H2_SIZE_S, fonts.H2_SIZE_L, fonts.H2_SIZE_L]}>
+                HOURS OF OPERATION
+              </Text>
+            </Box>
+
+            <Box
+              height={[sizes.HOURS_H_S, sizes.HOURS_H_M, sizes.HOURS_H_L, sizes.HOURS_H_XL]}
+              width={[sizes.GRID_FLEX_SIZE_S, sizes.GRID_FLEX_SIZE_M, sizes.GRID_FLEX_SIZE_L, sizes.GRID_FLEX_SIZE_XL]}
+              justifyContent={'center'}
+              fontSize={[fonts.HOURS_SIZE_S, fonts.HOURS_SIZE_S, fonts.HOURS_SIZE_L, fonts.HOURS_SIZE_L]}>
+              <Center>
+                <motion.div
+                  whileHover={{
+                    scale: 1.2,
+                    transition: { duration: 0.2 },
+                  }}
+                >
+                  <VStack
+                    mt={['0px', '0px', '10px', '10px']}
+                    bgColor={colors.BG_HEADER}
+                    color={colors.TXT_HEADER}
+                    opacity={'0.9'}
+                    border='4px'
+                    borderStyle='solid'
+                    borderColor={colors.ACCENT_BODY1}
+                    borderRadius={'xl'}
+                    p={['10px', '10px', '20px', '20px']}
+                    spacing='0px'>
+
+                    {hoursOfOperation.map((day, index) => (
+                      <>
+                        <HStack spacing='20px' fontFamily='body' justifyContent={'center'}>
+                          <Text align='left'
+                            width={[sizes.HOURS_W_S, sizes.HOURS_W_M, sizes.HOURS_W_L, sizes.HOURS_W_XL]}>
+                            {day.day}
+                          </Text>
+
+                          <Text align='right'
+                            width={[sizes.HOURS_W_S, sizes.HOURS_W_M, sizes.HOURS_W_L, sizes.HOURS_W_XL]}>
+                            {day.open}{day.close}
+                          </Text>
+                        </HStack>
+                      </>
+                    ))}
+                  </VStack>
+                </motion.div>
+              </Center>
+            </Box>
+
+          </VStack>
+        </Box>
+        {/* EXTEND HEIGHT / FUTURE SECTION */}
+        <Flex width={"100vw"} height={"100px"} justifyContent={"left"}>
+          {/* Vertically Center using <Center> */}
+          <Center width='100%' justifyContent='center'>
+            {/* <Text>test</Text> */}
+          </Center>
+        </Flex>
+
+
 
 
 
         {/* FOOTER */}
-        <Box backgroundColor='#3182ce' color='white' fontFamily={'bodyParagraph'} fontSize={'12px'} p={'14px'}>
-          <Text>@f30grillz - sales@f30grillz.com - 647-365-5329</Text>
-          <Text>
-            © F30 GRILLZ 2020 - 2023 TORONTO, ONTARIO, CANADA</Text>
-        </Box>
+
+        <Flex flexWrap="wrap"
+          width={"100%"}
+          height={"210px"}
+          justifyContent={"center"}
+          bgColor={colors.BG_HEADER}
+          color={colors.TXT_HEADER}
+          fontFamily={'heading'}
+          fontSize={[fonts.FOOTER_SIZE_S, fonts.FOOTER_SIZE_S, fonts.FOOTER_SIZE_L, fonts.FOOTER_SIZE_L]}>
+
+          <HStack spacing='10px' justifyContent={'left'}
+            width={[sizes.GRID_FLEX_SIZE_S, sizes.GRID_FLEX_SIZE_M, sizes.GRID_FLEX_SIZE_L, sizes.GRID_FLEX_SIZE_XL]}>
+
+            {/* LOGO */}
+            <Image ml='20px' width={[sizes.FTR_LOGO_WIDTH_S, sizes.FTR_LOGO_WIDTH_M, sizes.HDR_LOGO_WIDTH_L, sizes.FTR_LOGO_WIDTH_XL]}
+              src={logoColorTransBG}></Image>
+
+
+            {/* BUS INFO */}
+            <VStack textAlign={'left'} width='100%' height='100%' pt='50px' pl='20px' spacing='0px'>
+              <Text width='100%' fontWeight='bold' pb='10px'>{card.BUS_NAME}</Text>
+              <Text width='100%'>
+                <Link href={"Tel:+1" + card.BUS_PHONE1}>Call: {card.BUS_PHONE1}</Link>
+              </Text>
+              <Text width='100%'>{card.BUS_ADDRESS}</Text>
+              <Text width='100%'>{card.BUS_CITY_PROV}</Text>
+              <Text width='100%'>{card.BUS_POSTAL_CODE}</Text>
+              <Text width='100%'>CANADA</Text>
+            </VStack>
+
+
+            {/* NAV */}
+            <VStack textAlign={'left'} width='100%' height='100%' pt='50px' spacing='0px'>
+              <Text width='100%' fontWeight='bold' pb='10px'>INFORMATION</Text>
+              <Link width='100%' href={"#about"}>About Us</Link>
+              <Link width='100%' href={"#services"}>Services</Link>
+              <Link width='100%' href={"#location"}>Location</Link>
+              <Link width='100%' href={"#hours"}>Hours</Link>
+            </VStack>
+
+
+          </HStack>
+
+        </Flex>
+        <Text pb='20px'
+          bgColor={colors.BG_HEADER} color={colors.TXT_HEADER}
+          fontFamily={'heading'}
+          fontSize={[fonts.FOOTER_SIZE_S, fonts.FOOTER_SIZE_S, fonts.FOOTER_SIZE_L, fonts.FOOTER_SIZE_L]}>
+          Copyright © 2024 {card.BUS_NAME}. All rights reserved. | Designed by  <Link href={"https://www.ramiware.com"} target="_blank">Ramiware</Link>
+        </Text>
 
       </Box>
     </Box>
