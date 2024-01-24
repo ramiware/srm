@@ -1,4 +1,3 @@
-
 import {
   Box,
   Breadcrumb,
@@ -27,36 +26,23 @@ import { motion } from "framer-motion"
 
 // Hooks
 import { useTheme } from "../hooks/useTheme";
-import { useFeature } from "../hooks/useFeature";
 import { useBusiness } from "../hooks/useBusiness";
+import { useFeature } from "../hooks/useFeature";
+import { useInsurance } from "../hooks/useInsurance";
 import { useReview } from "../hooks/useReview";
 import { useHours } from "../hooks/useHours";
 import Slideshow from "../Slideshow";
 
 // Images
-import imgCanadaFlag from "../images/header/canada-flag-128x128.png"
+
 // HEADER
 import imgHdrToolL from "../images/header/tool-m-image-L-201x75.png"
-import logoWhiteTransBG from "../images/logo/srm-logo-white-2488x1048.png"
-import logoColorTransBG from "../images/logo/srm-logo-color-2488x1048.png"
 
 // SECTION BGS
 import bgBlue from "../images/section-bgs/srm-section-blue-bg-2000x1125.png"
 import bgRed from "../images/section-bgs/srm-section-red-bg-2000x1125.png"
 import bgLightBlue from "../images/section-bgs/srm-section-lightblue-bg-2000x1125.png"
 import bgCars from "../images/section-bgs/srm-section-cars-bg-2000x1125.png"
-
-// SERVICES
-import imgServGeoBG from "../images/card-bgs/srm-card-bg-geo-800x1000.png"
-
-// LOCATION
-import imgLocBG from "../images/card-bgs/srm-card-bg-redstripe-800x1000.png"
-
-// SHOP
-import imgOutdoorShot from "../images/shop/outdoor-shot.png"
-
-
-
 
 
 /***********************************************************************************************************
@@ -71,8 +57,9 @@ const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { colors, fonts, sizes } = useTheme();
-  const { card, BUSINESS_TITLE_DESCRIPTION, BUSINESS_ABOUT_DESCRIPTION1, BUSINESS_ABOUT_DESCRIPTION2, BUSINESS_ABOUT_DESCRIPTION3 } = useBusiness();
-  const { featureList, FEATURES_TITLE_DESCRIPTION } = useFeature();
+  const { logoWhiteTransBG, logoColorTransBG, imgLocationCard1, imgBusiness, card, BUSINESS_TITLE_DESCRIPTION, BUSINESS_ABOUT_DESCRIPTION1, BUSINESS_ABOUT_DESCRIPTION2, BUSINESS_ABOUT_DESCRIPTION3 } = useBusiness();
+  const { imgFeatureCard1, featureList, FEATURES_TITLE_DESCRIPTION } = useFeature();
+  const { imgInsuranceCard1, imgInsuranceCard2, INSURANCE_TITLE_DESCRIPTION1, INSURANCE_TITLE_DESCRIPTION2, INSURANCE_TITLE_DESCRIPTION3 } = useInsurance();
   const { reviewList, REVIEWS_TITLE_DESCRIPTION } = useReview();
   const { hoursOfOperation } = useHours();
 
@@ -235,6 +222,31 @@ const Home = () => {
                         }}
                         whileTap={{ scale: 0.9 }}
                       >
+                        <BreadcrumbLink href='#insurance'>INSURANCE CLAIMS</BreadcrumbLink>
+                      </motion.button>
+                    </BreadcrumbItem>
+
+                    <BreadcrumbItem>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.2,
+                          transition: { duration: 0.2 },
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <BreadcrumbLink href='#reviews'>REVIEWS</BreadcrumbLink>
+                      </motion.button>
+                    </BreadcrumbItem>
+
+
+                    <BreadcrumbItem>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.2,
+                          transition: { duration: 0.2 },
+                        }}
+                        whileTap={{ scale: 0.9 }}
+                      >
                         <BreadcrumbLink href='#location'>LOCATION</BreadcrumbLink>
                       </motion.button>
                     </BreadcrumbItem>
@@ -298,6 +310,12 @@ const Home = () => {
               </Box>
               <Box>
                 <Link href='#services'>SERVICES</Link>
+              </Box>
+              <Box>
+                <Link href='#insurance'>INSURANCE CLAIMS</Link>
+              </Box>
+              <Box>
+                <Link href='#reviews'>REVIEWS</Link>
               </Box>
               <Box>
                 <Link href='#location'>LOCATION</Link>
@@ -406,7 +424,7 @@ const Home = () => {
                 <Box
                   p='0px'
                   boxShadow='dark-lg' rounded='md'
-                  bgImage={imgServGeoBG} bgPosition={'center'} bgSize={'cover'} bgRepeat={'no-repeat'}
+                  bgImage={imgFeatureCard1} bgPosition={'center'} bgSize={'cover'} bgRepeat={'no-repeat'}
                   width={[sizes.FEAT_W_S, sizes.FEAT_W_M, sizes.FEAT_W_L, sizes.FEAT_W_XL]}
                   height={[sizes.FEAT_H_S, sizes.FEAT_H_M, sizes.FEAT_H_L, sizes.FEAT_H_XL]}>
 
@@ -432,7 +450,7 @@ const Home = () => {
                       </motion.div>
                     </Center>
                     {/* SERVICE TITLE */}
-                    <Text color='white' fontFamily={'heading'} pt='20px'
+                    <Text color='white' fontFamily={'heading'} pt='20px' pl='12px' pr='12px'
                       fontSize={[fonts.FEAT_TITLE_FONT_SIZE_S, fonts.FEAT_TITLE_FONT_SIZE_M, fonts.FEAT_TITLE_FONT_SIZE_L, fonts.FEAT_TITLE_FONT_SIZE_XL]}
                       textAlign={'center'}>
                       {feat.title}
@@ -448,6 +466,70 @@ const Home = () => {
 
           </VStack>
         </Box>
+
+
+
+        {/* INSURANCE */}
+        <Box id='insurance' height='100px' backgroundColor='white'></Box> {/* VERTICAL SPACER */}
+        <Box>
+          <VStack p={5}>
+
+            {/* TITLE */}
+            <VStack pb={5}>
+              <motion.div
+                whileHover={{
+                  scale: 1.2,
+                  transition: { duration: 0.2 },
+                }}
+              >
+                <Text color={colors.TXT_BODY1} fontFamily={'heading'} fontWeight={'bold'}
+                  fontSize={[fonts.H1_SIZE_S, fonts.H1_SIZE_S, fonts.H1_SIZE_L, fonts.H1_SIZE_L]}>
+                  INSURANCE CLAIMS
+                </Text>
+              </motion.div>
+            </VStack>
+
+            {/* GRID WIDTH */}
+            <Flex m={0} gap={['5px', '5px', '10px', '15px']} flexWrap={"wrap"}
+              width={[sizes.GRID_FLEX_SIZE_S, sizes.GRID_FLEX_SIZE_M, sizes.GRID_FLEX_SIZE_L, sizes.GRID_FLEX_SIZE_XL]}
+              justifyContent={'center'}>
+
+              {/* IMAGES */}
+              <Box
+                p='0px'
+                boxShadow='dark-lg' rounded='md'
+                bgImage={imgInsuranceCard1} bgPosition={'center'} bgSize={'cover'} bgRepeat={'no-repeat'}
+                width={[sizes.FEAT_W_S, sizes.FEAT_W_M, sizes.FEAT_W_L, sizes.FEAT_W_XL]}
+                height={[sizes.FEAT_H_S, sizes.FEAT_H_M, sizes.FEAT_H_L, sizes.FEAT_H_XL]} />
+              <Box
+                p='0px'
+                boxShadow='dark-lg' rounded='md'
+                bgImage={imgInsuranceCard2} bgPosition={'center'} bgSize={'cover'} bgRepeat={'no-repeat'}
+                width={[sizes.FEAT_W_S, sizes.FEAT_W_M, sizes.FEAT_W_L, sizes.FEAT_W_XL]}
+                height={[sizes.FEAT_H_S, sizes.FEAT_H_M, sizes.FEAT_H_L, sizes.FEAT_H_XL]} />
+
+              {/* DESCRIPTION */}
+              <Box color={colors.TXT_BODY1} fontFamily={'body'} textAlign={'left'}
+                fontSize={[fonts.H2_SIZE_S, fonts.H2_SIZE_S, fonts.H2_SIZE_L, fonts.H2_SIZE_L]}>
+                <Text pt='30px'>
+                  {INSURANCE_TITLE_DESCRIPTION1}
+                </Text>
+                <Text pt='30px'>
+                  {INSURANCE_TITLE_DESCRIPTION2}
+                </Text>
+                <Text pt='30px'>
+                  {INSURANCE_TITLE_DESCRIPTION3}
+                </Text>
+              </Box>
+
+            </Flex>
+
+
+          </VStack>
+        </Box>
+
+
+
 
         {/* REVIEWS */}
         <Box id='reviews' height='100px' backgroundColor='white'></Box> {/* VERTICAL SPACER */}
@@ -662,7 +744,7 @@ const Home = () => {
               height={[sizes.LOCATION_H_S, sizes.LOCATION_H_M, sizes.LOCATION_H_L, sizes.LOCATION_H_XL]}>
               {/* ADDRESS */}
               <Box flexShrink={0}
-                bgImage={imgLocBG} bgPosition={'center'} bgSize={'cover'} bgRepeat={'no-repeat'}
+                bgImage={imgLocationCard1} bgPosition={'center'} bgSize={'cover'} bgRepeat={'no-repeat'}
                 fontFamily='body'
                 fontSize={[fonts.ADDRESS_SIZE_S, fonts.ADDRESS_SIZE_S, fonts.ADDRESS_SIZE_L, fonts.ADDRESS_SIZE_L]}
                 width={[sizes.ADDR_W_S, sizes.ADDR_W_M, sizes.ADDR_W_L, sizes.ADDR_W_XL]}
@@ -685,7 +767,7 @@ const Home = () => {
                 <Image pt='20px'
                   borderRadius="lg"
                   // width={{ md: 40 }}
-                  src={imgOutdoorShot} />
+                  src={imgBusiness} />
               </Box>
               {/* MAP */}
               <Box mt={{ base: 4, md: 0 }} ml={{ md: 6 }} bgColor={colors.ACCENT_BODY1}
@@ -828,6 +910,8 @@ const Home = () => {
               <Text width='100%' fontWeight='bold' pb='10px'>INFORMATION</Text>
               <Link width='100%' href={"#about"}>About Us</Link>
               <Link width='100%' href={"#services"}>Services</Link>
+              <Link width='100%' href={"#insurance"}>Insurance</Link>
+              <Link width='100%' href={"#reviews"}>Reviews</Link>
               <Link width='100%' href={"#location"}>Location</Link>
               <Link width='100%' href={"#hours"}>Hours</Link>
             </VStack>
@@ -836,7 +920,7 @@ const Home = () => {
           </HStack>
 
         </Flex>
-        <Text pb='20px'
+        <Text pb='20px' pt='20px'
           bgColor={colors.BG_HEADER} color={colors.TXT_HEADER}
           fontFamily={'heading'}
           fontSize={[fonts.FOOTER_SIZE_S, fonts.FOOTER_SIZE_S, fonts.FOOTER_SIZE_L, fonts.FOOTER_SIZE_L]}>
@@ -844,7 +928,7 @@ const Home = () => {
         </Text>
 
       </Box>
-    </Box>
+    </Box >
 
   );
 };

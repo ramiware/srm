@@ -1,5 +1,7 @@
 import { useBusiness } from "../hooks/useBusiness";
 
+import imgFeatureCard1 from "../images/card-bgs/srm-card-bg-geo-800x1000.png"
+
 import imgFeature1 from "../images/services/oil-1000x1000.png"
 import imgFeature2 from "../images/services/air-filter-1000x1000.png"
 import imgFeature3 from "../images/services/spark-plug-1000x1000.png"
@@ -8,10 +10,12 @@ import imgFeature5 from "../images/services/coolant-1000x1000.png"
 import imgFeature6 from "../images/services/tire-1000x1000.png"
 import imgFeature7 from "../images/services/engine-1000x1000.png"
 import imgFeature8 from "../images/services/brake-1000x1000.png"
+import imgFeature9 from "../images/services/body-1000x1000.png"
 
 export const useFeature = () => {
 
   const FEATURES_TITLE_DESCRIPTION = "We offer a wide range of services for all makes and models in order to keep your automobile fully serviced and functional.";
+
   const { card } = useBusiness();
 
   type Feature = {
@@ -104,6 +108,16 @@ export const useFeature = () => {
     linkURL: "tel:+1" + card.BUS_PHONE1
   }
 
+  const feature9: Feature = {
+    id: '9',
+    thumb: imgFeature9,
+    title: "BODY WORK, INSURANCE CLAIMS & STORAGE",
+    description: "",
+    price: "$18",
+    linkText: "Call Now",
+    linkURL: "tel:+1" + card.BUS_PHONE1
+  }
+
 
   const featureList: Feature[] = [];
   featureList.push(feature1);
@@ -114,6 +128,7 @@ export const useFeature = () => {
   featureList.push(feature6);
   featureList.push(feature7);
   featureList.push(feature8);
+  featureList.push(feature9);
 
-  return { featureList, FEATURES_TITLE_DESCRIPTION }
+  return { imgFeatureCard1, featureList, FEATURES_TITLE_DESCRIPTION }
 };

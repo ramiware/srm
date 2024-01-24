@@ -1,3 +1,13 @@
+// LOGO
+import logoWhiteTransBG from "../images/logo/srm-logo-white-2488x1048.png"
+import logoColorTransBG from "../images/logo/srm-logo-color-2488x1048.png"
+
+// LOCATION
+import imgLocationCard1 from "../images/card-bgs/srm-card-bg-redstripe-800x1000.png"
+
+// SHOP
+import imgBusiness from "../images/shop/outdoor-shot.png"
+
 export function useBusiness() {
 
 
@@ -31,5 +41,5 @@ export function useBusiness() {
   }
 
 
-  return { card, BUSINESS_TITLE_DESCRIPTION, BUSINESS_ABOUT_DESCRIPTION1, BUSINESS_ABOUT_DESCRIPTION2, BUSINESS_ABOUT_DESCRIPTION3 }
+  return { logoWhiteTransBG, logoColorTransBG, imgLocationCard1, imgBusiness, card, BUSINESS_TITLE_DESCRIPTION, BUSINESS_ABOUT_DESCRIPTION1, BUSINESS_ABOUT_DESCRIPTION2, BUSINESS_ABOUT_DESCRIPTION3 }
 };
