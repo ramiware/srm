@@ -63,6 +63,8 @@ const Home = () => {
   const { reviewList, REVIEWS_TITLE_DESCRIPTION } = useReview();
   const { hoursOfOperation } = useHours();
 
+  let currentYear = new Date().getFullYear()
+
 
   /***********************************************************************************************************
    * CLASS FUNCTIONS
@@ -924,11 +926,11 @@ const Home = () => {
           bgColor={colors.BG_HEADER} color={colors.TXT_HEADER}
           fontFamily={'heading'}
           fontSize={[fonts.FOOTER_SIZE_S, fonts.FOOTER_SIZE_S, fonts.FOOTER_SIZE_L, fonts.FOOTER_SIZE_L]}>
-          Copyright © 2024 {card.BUS_NAME}. All rights reserved. | Designed by  <Link href={"https://www.ramiware.com"} target="_blank">Ramiware</Link>
+          Copyright © {currentYear} {card.BUS_NAME}. All rights reserved. | Designed by  <Link href={"https://www.ramiware.com"} target="_blank">Ramiware</Link>
         </Text>
 
       </Box>
-    </Box >
+    </Box>
 
   );
 };
