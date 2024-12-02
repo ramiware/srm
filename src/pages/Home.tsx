@@ -31,18 +31,23 @@ import { useFeature } from "../hooks/useFeature";
 import { useInsurance } from "../hooks/useInsurance";
 import { useReview } from "../hooks/useReview";
 import { useHours } from "../hooks/useHours";
+
+
+// components
+import ScrollToTopButton from "../components/buttons/ScrollToTopButton";
 import Slideshow from "../Slideshow";
 
 // Images
 
 // HEADER
-import imgHdrToolL from "../images/header/tool-m-image-L-201x75.png"
+import imgHdrToolL from "../images/header/tool-m-image-L-201x100.png"
 
 // SECTION BGS
 import bgBlue from "../images/section-bgs/srm-section-blue-bg-2000x1125.png"
 import bgRed from "../images/section-bgs/srm-section-red-bg-2000x1125.png"
 import bgLightBlue from "../images/section-bgs/srm-section-lightblue-bg-2000x1125.png"
 import bgCars from "../images/section-bgs/srm-section-cars-bg-2000x1125.png"
+
 
 
 /***********************************************************************************************************
@@ -83,7 +88,7 @@ const Home = () => {
    * UI
    ***********************************************************************************************************/
   return (
-    <Box bgColor='white'>
+    <Box bgColor='white' width={'100%'}>
 
       {/* HEADER **********************************************************************************************************/}
       <Box
@@ -97,10 +102,11 @@ const Home = () => {
         <Center>
           <HStack spacing={['0px', '0px', '10px', '40px']}
             height={[sizes.HDR_HEIGHT_S, sizes.HDR_HEIGHT_S, sizes.HDR_HEIGHT_L, sizes.HDR_HEIGHT_L]}
-            width='100%'>
+            width='100%'
+          >
 
             {/* IMAGE TOOL M (DESKTOP ONLY) */}
-            <Image display={{ base: "none", md: "flex" }} src={imgHdrToolL} width={[sizes.HDR_TOOL_WIDTH_S, sizes.HDR_TOOL_WIDTH_S, sizes.HDR_TOOL_WIDTH_L, sizes.HDR_TOOL_WIDTH_L]}></Image>
+            <Image display={{ base: "none", md: "flex" }} src={imgHdrToolL} width={[sizes.HDR_TOOL_WIDTH_S, sizes.HDR_TOOL_WIDTH_S, sizes.HDR_TOOL_WIDTH_L, sizes.HDR_TOOL_WIDTH_L]} />
 
             {/* LOGO IMG/TXT */}
             <motion.div
@@ -269,14 +275,15 @@ const Home = () => {
                 </HStack>
 
                 {/* MOBILE NAV BUTTON (HAMBURGER) */}
-                <HStack display={{ base: "block", md: "none" }}>
+                <HStack display={{ base: "block", md: "none" }} pr='10px'>
                   <Spacer></Spacer>
                   <IconButton
-                    bgColor={colors.BG_HEADER}
-                    color={colors.TXT_HEADER}
+                    fontSize='25px'
+                    bgColor={'transparent'}
+                    color={colors.ACCENT_BODY2}
                     aria-label='Menu'
                     icon={<HamburgerIcon />}
-                    onClick={openMenuDrawer}></IconButton>
+                    onClick={openMenuDrawer} />
                 </HStack>
 
               </VStack>
@@ -305,25 +312,25 @@ const Home = () => {
               align='stretch'>
               <Box></Box>
               <Box>
-                <Link href='#'>HOME</Link>
+                <Link href='#' onClick={onClose}>HOME</Link>
               </Box>
               <Box>
-                <Link href='#about'>ABOUT</Link>
+                <Link href='#about' onClick={onClose}>ABOUT</Link>
               </Box>
               <Box>
-                <Link href='#services'>SERVICES</Link>
+                <Link href='#services' onClick={onClose}>SERVICES</Link>
               </Box>
               <Box>
-                <Link href='#insurance'>INSURANCE CLAIMS</Link>
+                <Link href='#insurance' onClick={onClose}>INSURANCE CLAIMS</Link>
               </Box>
               <Box>
-                <Link href='#reviews'>REVIEWS</Link>
+                <Link href='#reviews' onClick={onClose}>REVIEWS</Link>
               </Box>
               <Box>
-                <Link href='#location'>LOCATION</Link>
+                <Link href='#location' onClick={onClose}>LOCATION</Link>
               </Box>
               <Box>
-                <Link href='#hours'>HOURS</Link>
+                <Link href='#hours' onClick={onClose}>HOURS</Link>
               </Box>
 
               <Box></Box>
@@ -753,7 +760,7 @@ const Home = () => {
                 height={[sizes.ADDR_H_S, sizes.ADDR_H_M, sizes.ADDR_H_L, sizes.ADDR_H_XL]}
                 pt={['30px', '30px', '40px', '40px']}>
                 {/* Business Name */}
-                <Text fontWeight='bold' pb='10px'>{card.BUS_NAME}</Text>
+                <Text fontWeight='bold' pb='10px'>{card.BUS_NAME_UPPER}</Text>
                 {/* Address */}
                 <Text>{card.BUS_ADDRESS}</Text>
                 <Text>{card.BUS_CITY_PROV}</Text>
@@ -876,7 +883,6 @@ const Home = () => {
 
 
         {/* FOOTER */}
-
         <Flex flexWrap="wrap"
           width={"100%"}
           height={"210px"}
@@ -896,7 +902,7 @@ const Home = () => {
 
             {/* BUS INFO */}
             <VStack textAlign={'left'} width='100%' height='100%' pt='50px' pl='20px' spacing='0px'>
-              <Text width='100%' fontWeight='bold' pb='10px'>{card.BUS_NAME}</Text>
+              <Text width='100%' fontWeight='bold' pb='10px'>{card.BUS_NAME_UPPER}</Text>
               <Text width='100%'>
                 <Link href={"Tel:+1" + card.BUS_PHONE1}>Call: {card.BUS_PHONE1}</Link>
               </Text>
@@ -926,10 +932,12 @@ const Home = () => {
           bgColor={colors.BG_HEADER} color={colors.TXT_HEADER}
           fontFamily={'heading'}
           fontSize={[fonts.FOOTER_SIZE_S, fonts.FOOTER_SIZE_S, fonts.FOOTER_SIZE_L, fonts.FOOTER_SIZE_L]}>
-          Copyright © {currentYear} {card.BUS_NAME}. All rights reserved. | Designed by  <Link href={"https://www.ramiware.com"} target="_blank">Ramiware</Link>
+          Copyright © {currentYear} {card.BUS_NAME_UPPER}. All rights reserved. | Designed by  <Link href={"https://www.ramiware.com"} target="_blank">Ramiware</Link>
         </Text>
 
       </Box>
+
+      {ScrollToTopButton()}
     </Box>
 
   );

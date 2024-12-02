@@ -49,7 +49,7 @@ const Slide = ({ isActive, slide, handleDrag }: any) => {
       >
 
         {/* {slide} */}
-        <Flex width={"100vw"} height={"100%"} justifyContent={"left"}>
+        <Flex width={"100%"} height={"100%"} justifyContent={"left"}>
           {/* Vertically Center using <Center> */}
           <Center width='100%' justifyContent={['center', 'center', 'left', 'left']}>
 

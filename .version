@@ -1,5 +1,5 @@
 ------------------------------------------------------
-| V1.02 - safe ride motors
+| V1.03 - safe ride motors
 ------------------------------------------------------
 
 ------------------------------------------------------
@@ -19,3 +19,12 @@
 [DONE][V1.01]- add section: insurance
 [DONE][V1.01]- add nav: insurance
 [DONE][V1.02]- add auto year variable
+[DONE][V1.03]- updated logo and business name to include "INC"
+[DONE][V1.03]- added scroll to top functionality
+
+
+[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]
+[[[[  PACKAGES                        ]]]]
+[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]
+npm i react-router-dom
+npm i react-scroll-to-top

@@ -21,7 +21,9 @@
     "react-dom": "^18.2.0",
     "react-gtm-module": "^2.0.11",
     "react-icons": "^3.11.0",
+    "react-router-dom": "^7.0.1",
     "react-scripts": "5.0.1",
+    "react-scroll-to-top": "^3.0.0",
     "react-slideshow-image": "^4.0.5",
     "typescript": "^4.8.4",
     "web-vitals": "^2.1.4"

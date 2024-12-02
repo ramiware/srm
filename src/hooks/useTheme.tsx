@@ -70,14 +70,14 @@ export function useTheme() {
 
   const sizes = {
     // HEADER
-    HDR_HEIGHT_S: '55px',
-    HDR_HEIGHT_L: '75px',
+    HDR_HEIGHT_S: '75px',
+    HDR_HEIGHT_L: '100px',
 
     HDR_TOOL_WIDTH_S: '150px',
     HDR_TOOL_WIDTH_L: '201px',
 
     HDR_LOGO_WIDTH_S: '140px',
-    HDR_LOGO_WIDTH_L: '180px',
+    HDR_LOGO_WIDTH_L: '225px',
 
 
     // GRIDS
